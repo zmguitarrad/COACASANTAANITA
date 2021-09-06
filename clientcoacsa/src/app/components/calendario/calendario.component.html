@@ -1,0 +1,152 @@
+<app-header></app-header>
+<div class="container mt-4">
+  <div class="row">
+ 
+    <div class="col-6 mb-2">
+        <h2> <strong>CALENDARIO</strong></h2>
+    </div>
+  <div class="table-responsive">
+   
+    <table class="table table-bordered">
+      <thead class="thead">
+        <tr>
+          <th>MESES</th>
+          <th>ESTADO</th>
+          <th>POSTERGAR</th>
+          <th>OBSERVACIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor ="let actividad of actividades; let i = index">
+          <th class="text-center">{{actividad.mes}}</th>
+          <th class="text-center" *ngIf="actividad.estado else select">
+            <div>
+              <select #selectEstado [value]="actividad.secEstado.toString()" (change)="onChangeActividad(actividad, selectEstado)">
+                <option value="1">Pendiente</option>
+                <option value="2">Cumplido</option>
+                <option value="3">Incumplido</option>
+                <option value="4">Postergado</option>
+              </select>
+            </div>
+          </th>
+          <th class="text-center">
+            <!-- <input *ngIf="actividad.secEstado === 4" type="month" name="months" id="months"> -->
+            <select  *ngIf="actividad.secEstado === 4" #selectPostergar (change)="onChangePostergar(selectPostergar)">
+              <option *ngFor="let month of getMonths(); let i = index" [value]="i">{{month}}</option>
+            </select>
+          </th>
+          <th class="text-center">
+            <button type="button" (click) = "viewObservacion(actividad)"
+            class="btn btn-primary btn-sm"
+            data-toggle="modal" data-target="#exampleModal"
+            >Ver</button>
+          </th>
+        </tr>
+      </tbody>
+
+    </table>
+    <ng-template #select>
+      <th class="text-center">Sin asignar</th>
+    </ng-template>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{poaActividadSelected.mes}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="row d-flex justify-content-center"></div>
+      <div class="table-responsive" >
+      <table class="table table-bordered">
+        <thead class="thead">
+          <tr>
+            <th scope="col">Nro</th>
+            <th scope="col">Observación</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Entregables</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+      </table>
+      
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+          
+        </tbody>
+      </table>
+   
+    </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="modal-body">
+          
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Observación:</label>
+                <textarea class="form-control" id="message-text" placeholder="Añadir nueva observación"></textarea>
+              </div>
+          
+          </div>
+          <div class="form-group">
+            <label for="inputState"><strong>Adjutantar un archivo:  </strong></label>
+            <div  class="card-body text-left">
+            <input type="file" id="ejemplo_archivo_1">
+          </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
