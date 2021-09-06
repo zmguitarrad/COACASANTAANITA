@@ -8,7 +8,7 @@
               PERSPECTIVA
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <button class="dropdown-item" *ngFor="let p of perspectivas" type="button">
+              <button class="dropdown-item" (click)="changePerspective(p.secuencial_perspectiva)" *ngFor="let p of perspectivas" type="button">
                 {{p.nombre_perspectiva}}
               </button>
             </div>

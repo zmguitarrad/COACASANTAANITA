@@ -67,6 +67,15 @@ export class ActividadComponent implements OnInit {
       });
   }
 
+  changePerspective(pSec: number) {
+    console.log(pSec);
+    this.actividadService
+      .getActividadesByPerspectiva(this.secAnio, pSec)
+      .subscribe((actvs) => {
+        this.actividades = actvs;
+      });
+  }
+
   viewCalendario(actividad: Actividad) {
     this.actvsCal = [];
     this.actividadSelected = actividad;

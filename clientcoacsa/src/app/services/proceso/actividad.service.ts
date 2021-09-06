@@ -16,5 +16,12 @@ export class ActividadService {
     return this._http.get<Actividad[]>(`${API.poa}/actividad/usuario/poa/${sec}`);
   }
 
+  getActividadesByPerspectiva(
+    poaSec: number,
+    perspectivaSec: number
+    ){
+    return this._http.get<Actividad[]>(`${API.poa}/actividad/usuario/poa/${poaSec}/perspectiva/${perspectivaSec}`);
+  }
+
 
 }
