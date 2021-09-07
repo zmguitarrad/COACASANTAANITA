@@ -2,7 +2,7 @@
    "name": "api_planestrategico",
    "main": "src/index.ts",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "description": "Awesome project developed with Zamia and Cinthya",
    "devDependencies": {
       "ts-node-dev": "^1.1.1"
    },
