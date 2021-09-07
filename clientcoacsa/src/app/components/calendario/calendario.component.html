@@ -32,7 +32,7 @@
           <th class="text-center">
             <!-- <input *ngIf="actividad.secEstado === 4" type="month" name="months" id="months"> -->
             <select  *ngIf="actividad.secEstado === 4" #selectPostergar (change)="onChangePostergar(selectPostergar)">
-              <option *ngFor="let month of getMonths(); let i = index" [value]="i">{{month}}</option>
+              <option *ngFor="let month of actividades; let i = index" [value]="month.secuencialMes">{{month.mes}}</option>
             </select>
           </th>
           <th class="text-center">

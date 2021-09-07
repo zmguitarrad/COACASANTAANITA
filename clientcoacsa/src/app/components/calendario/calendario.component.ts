@@ -76,7 +76,6 @@ export class CalendarioComponent implements OnInit {
       .subscribe((query) => {
         this.calService.getMonths(query.secAnio).subscribe((months) => {
           this.months = months;
-          console.log(months);
         });
 
         //Obtengos mis parametros del query
@@ -103,23 +102,25 @@ export class CalendarioComponent implements OnInit {
   }
 
   getActividades() {
-    const months = getMonthsOfYear();
-    return months.map((month) => {
+    //const months = getMonthsOfYear();
+    return this.months.map((month) => {
       //Obtengo mi actividad si existe, si no existe undefined
-      const response = this.checkActividad(month);
+      const response = this.checkActividad(month.mes);
       if (response) {
         return {
           estado: response.nombre_estado,
           secEstado: response.secuencial,
           secuencialCalendario: response.secuencial_calendario,
-          mes: month,
+          mes: month.mes,
+          secuencialMes: month.secuencial
         };
       } else {
         return {
           estado: null,
           secEstado: -1,
           secuencialCalendario: -1,
-          mes: month,
+          mes: month.mes,
+          secuencialMes: month.secuencial
         };
       }
     });
@@ -138,9 +139,6 @@ export class CalendarioComponent implements OnInit {
         actividad.secuencialCalendario
       )
       .subscribe((r) => {
-        console.log('Estado: ' + Number(estado.value));
-        console.log('Actividad: ' + this.secActividad);
-        console.log('Calendario: ' + actividad.secuencialCalendario);
         console.log('Actualizado');
       });
   }
@@ -155,6 +153,7 @@ export class CalendarioComponent implements OnInit {
         this.observacion = obserPoa;
       });
   }
+
   viewObservacion(poaActividad: PoaActividad) {
     this.obserCal = [];
     this.poaActividadSelected = poaActividad;

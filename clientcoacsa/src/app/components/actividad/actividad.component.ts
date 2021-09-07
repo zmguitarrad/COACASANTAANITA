@@ -20,6 +20,7 @@ export class ActividadComponent implements OnInit {
   secAnio: number = -1;
   secActividad: number = -1;
   perspectivas: any[] = [];
+  title = 'GENERALES';
   actividadSelected: Actividad = {
     secuencial: -1,
     nombre_perspectiva: '',
@@ -55,25 +56,33 @@ export class ActividadComponent implements OnInit {
     this.activatedRouter.queryParams
       .pipe(map((query) => Number(query['q'])))
       .subscribe((secuencial) => {
-        this.actividadService
-          .getActividadesPoa(secuencial)
-          .subscribe((actvs) => {
-            this.actividades = actvs;
-            this.secAnio = secuencial;
-          });
-        this.poaService.getPerspectivas(secuencial).subscribe((ps) => {
-          this.perspectivas = ps;
-        });
+        this.getActividades(secuencial);
       });
   }
 
+  getActividades(secuencial: number) {
+    this.actividadService.getActividadesPoa(secuencial).subscribe((actvs) => {
+      this.actividades = actvs;
+      this.secAnio = secuencial;
+    });
+    this.poaService.getPerspectivas(secuencial).subscribe((ps) => {
+      this.perspectivas = ps;
+    });
+  }
+
   changePerspective(pSec: number) {
-    console.log(pSec);
-    this.actividadService
-      .getActividadesByPerspectiva(this.secAnio, pSec)
-      .subscribe((actvs) => {
-        this.actividades = actvs;
-      });
+    if (pSec === -1) {
+      this.getActividades(this.secAnio);
+    } else {
+      this.actividadService
+        .getActividadesByPerspectiva(this.secAnio, pSec)
+        .subscribe((actvs) => {
+          if (this.actividades.length !== 0) {
+            this.actividades = actvs;
+            this.title = this.actividades[0].nombre_perspectiva;
+          }
+        });
+    }
   }
 
   viewCalendario(actividad: Actividad) {

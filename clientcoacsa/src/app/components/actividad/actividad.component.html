@@ -1,13 +1,17 @@
 <app-header></app-header>
 <div class="container mt-4">
   <div class="row">
-      <div class="col-6 mb-2">
-          <h2> <strong>LISTA DE ACTIVIDADES </strong></h2>
+      <div class="col-12 mb-2">
+          <h2> <strong>LISTA DE ACTIVIDADES {{title}}</strong></h2>
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              PERSPECTIVA
+             {{title}}
             </button>
+           
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <button class="dropdown-item" (click)="changePerspective(-1)" type="button">
+                GENERALES
+              </button>
               <button class="dropdown-item" (click)="changePerspective(p.secuencial_perspectiva)" *ngFor="let p of perspectivas" type="button">
                 {{p.nombre_perspectiva}}
               </button>

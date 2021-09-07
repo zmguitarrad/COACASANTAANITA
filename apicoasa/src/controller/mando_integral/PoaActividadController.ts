@@ -213,9 +213,13 @@ export class PoaActividadController {
     const calendarioBD = getRepository(generales_calendario);
     const response = await calendarioBD.query(
       `
-    select*from generales_calendario ca
-inner join generales_anio an on an.secuencial=ca.secuencial_anio
-where an.secuencial = $1;
+      select 
+      ca.secuencial, 
+      ca.mes, 
+      ca.secuencial_anio, 
+      an.secuencial as "secuencial_anio" from generales_calendario ca
+      inner join generales_anio an on an.secuencial=ca.secuencial_anio
+      where an.secuencial = $1;
     `,
       [Number(req.params.secuencial)]
     );
