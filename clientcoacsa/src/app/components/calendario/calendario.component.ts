@@ -50,6 +50,12 @@ export class CalendarioComponent implements OnInit {
 
   months: any[] = [];
 
+  secAnio: number = -1;
+
+  flag = false;
+  postergar: number;
+  secPoaAct: number;
+
   //Router Angular
   private activatedRoute: ActivatedRoute;
 
@@ -76,19 +82,25 @@ export class CalendarioComponent implements OnInit {
       .subscribe((query) => {
         this.calService.getMonths(query.secAnio).subscribe((months) => {
           this.months = months;
+          this.secAnio = query.secAnio;
+          this.getActividadesFromDB(query.secActividad);
         });
 
-        //Obtengos mis parametros del query
-        this.secActividad = query.secActividad;
-        this.calService
-          .getCalendarioActividades(query.secAnio, query.secActividad)
-          .subscribe((actvsCal) => {
-            //Actividades originales (solo las que estan en la base de datos)
-            this.actvsCal = actvsCal;
-            console.log(this.actvsCal);
-            //Todas las actividades durante el año
-            this.actividades = this.getActividades();
-          });
+       
+      });
+  }
+
+  getActividadesFromDB(secActividad: number) {
+    //Obtengos mis parametros del query
+    this.secActividad = secActividad;
+    this.calService
+      .getCalendarioActividades(this.secAnio, secActividad)
+      .subscribe((actvsCal) => {
+        //Actividades originales (solo las que estan en la base de datos)
+        this.actvsCal = actvsCal;
+        console.log(this.actvsCal);
+        //Todas las actividades durante el año
+        this.actividades = this.getActividades();
       });
   }
 
@@ -112,7 +124,8 @@ export class CalendarioComponent implements OnInit {
           secEstado: response.secuencial,
           secuencialCalendario: response.secuencial_calendario,
           mes: month.mes,
-          secuencialMes: month.secuencial
+          secuencialMes: month.secuencial,
+          secPoaActividad: response.secuencial_poa_actividad,
         };
       } else {
         return {
@@ -120,7 +133,8 @@ export class CalendarioComponent implements OnInit {
           secEstado: -1,
           secuencialCalendario: -1,
           mes: month.mes,
-          secuencialMes: month.secuencial
+          secuencialMes: month.secuencial,
+          secPoaActividad: -1,
         };
       }
     });
@@ -165,8 +179,21 @@ export class CalendarioComponent implements OnInit {
       });
   }
 
-  onChangePostergar(postergar: HTMLSelectElement) {
-    console.log(postergar.value);
+  onChangePostergar(postergar: HTMLSelectElement, secPoaAct: number) {}
+
+  onClickPostergar() {
+    this.calService.getPoaActividadById(this.secPoaAct).subscribe((r) => {
+      this.calService
+        .postergar(r[0], this.secAnio, this.secActividad, this.postergar)
+        .subscribe((r) => {
+          this.getActividadesFromDB(this.secActividad);
+        });
+    });
+  }
+
+  setData(postergar: HTMLSelectElement, secPoaAct: number) {
+    this.postergar = Number(postergar.value);
+    this.secPoaAct = secPoaAct;
   }
 
   getMonths() {

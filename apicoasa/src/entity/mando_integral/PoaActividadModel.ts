@@ -20,10 +20,6 @@ export class mando_integral_poa_actividad {
     @Column("decimal", { precision: 6, scale: 2 })
     @IsNotEmpty()
     presupuesto_ulizado :number;
-
-    @Column("decimal", { precision: 6, scale: 2 })
-    @IsNotEmpty()
-    avance:number;
      
     @Column({nullable:true} )
     secuencial_postergacion: number;

@@ -93,7 +93,6 @@ export class PoaActividadController {
       secuencial_calendario,
       presupuesto_ulizado,
       presupuesto,
-      avance,
       secuencial_postergacion,
     } = req.body;
     const poactividadBD = getRepository(mando_integral_poa_actividad);
@@ -147,7 +146,7 @@ export class PoaActividadController {
     poactividad.secuencial_calendario = secuencial_calendario;
     poactividad.presupuesto = presupuesto;
     poactividad.presupuesto_ulizado = presupuesto_ulizado;
-    poactividad.avance = avance;
+    
     poactividad.secuencial_postergacion = secuencial_postergacion;
 
     const validationOpt = { validationError: { target: false, value: false } };
