@@ -30,7 +30,7 @@ export class CalendarioService {
   ) {
     const poaActividad = {
       presupuesto: poaFound.presupuesto,
-      presupuesto_ulizado: poaFound.presupuesto_ulizado,
+      presupuesto_utilizado: poaFound.presupuesto_utilizado,
       secuencial_postergacion: poaFound.secuencial_calendario,
       secuencial_poa_maestro: {
         secuencial: secuencialPoaMaestro,

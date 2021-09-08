@@ -31,6 +31,9 @@ export class CalendarioComponent implements OnInit {
     secuencial_calendario: 1,
     secuencial_poa_actividad: -1,
     secPoaActividad: -1,
+    presupuesto_utilizado:0
+
+
  
   };
 
@@ -119,7 +122,7 @@ export class CalendarioComponent implements OnInit {
           mes: month.mes,
           secuencialMes: month.secuencial,
           secPoaActividad: response.secuencial_poa_actividad,
-          flagPostergar: response.secuencial === 4 ? true : false,
+          flagPostergar: response.secuencial === 4 ? true:false,
         };
       } else {
         return {

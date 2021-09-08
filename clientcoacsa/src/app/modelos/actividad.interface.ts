@@ -22,5 +22,6 @@ export interface Actividad{
     "secuencial_poa_actividad": number;
     nombre_objetivo_perspectiva:string;
     secPoaActividad?: number;
+    presupuesto_utilizado:number
    
   }
