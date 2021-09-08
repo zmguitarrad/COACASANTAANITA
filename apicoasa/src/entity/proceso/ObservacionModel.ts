@@ -15,11 +15,11 @@ export class proceso_observacion {
     @MaxLength(200)
     @IsNotEmpty()
     nombre_observacion: string;
+    
     @Column("timestamp")
     fecha: Date;
 
     @Column({nullable:true})
-    @MinLength(4)
     @MaxLength(500)
     entregables: string;
     

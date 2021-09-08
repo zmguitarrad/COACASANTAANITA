@@ -49,7 +49,7 @@ export class ObservacionController {
       };
 
     static createObservacion = async (req: Request, res: Response) => {
-        const {nombre_observacion, CURRENT_TIMESTAMP,entregables, secuencial_poa_actividad} = req.body;
+        const {nombre_observacion,entregables, secuencial_poa_actividad} = req.body;
         const poactividadBD = getRepository(mando_integral_poa_actividad);
         const observacionBD = getRepository(proceso_observacion);
 
@@ -62,11 +62,12 @@ export class ObservacionController {
                 error
             });
         }
+        let date: Date = new Date();
 
         const observacion = new proceso_observacion();
         observacion.nombre_observacion = nombre_observacion;
-        observacion.fecha =CURRENT_TIMESTAMP;
-        observacion.entregables =entregables;
+        observacion.fecha =date;
+        observacion.entregables =entregables || "";
         observacion.secuencial_poa_actividad=secuencial_poa_actividad;
 
         const validationOpt = { validationError: { target: false, value: false } }
