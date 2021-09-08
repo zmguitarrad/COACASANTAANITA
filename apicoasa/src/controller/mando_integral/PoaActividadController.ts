@@ -91,7 +91,7 @@ export class PoaActividadController {
       secuencial_actividad,
       secuencial_estado,
       secuencial_calendario,
-      presupuesto_ulizado,
+      presupuesto_utilizado,
       presupuesto,
       secuencial_postergacion,
     } = req.body;
@@ -145,7 +145,7 @@ export class PoaActividadController {
     poactividad.secuencial_estado = secuencial_estado;
     poactividad.secuencial_calendario = secuencial_calendario;
     poactividad.presupuesto = presupuesto;
-    poactividad.presupuesto_ulizado = presupuesto_ulizado;
+    poactividad.presupuesto_utilizado = presupuesto_utilizado;
     
     poactividad.secuencial_postergacion = secuencial_postergacion;
 
@@ -242,4 +242,26 @@ export class PoaActividadController {
       res.json({ error }).status(209);
     }
   };
+  static updatePoaActividadPresupuestoUtilizado = async(req: Request, res: Response)=>{
+    const presupuesto_ulizado = req.params.presupuesto_ulizado;
+    const secuencial = req.params.secuencial;
+    const sql = `
+      update mando_integral_poa_actividad  set presupuesto_utilizado=$1
+      where secuencial=$2
+        ;`;
+    try {
+      const PoaActividadDB = getRepository(mando_integral_poa_actividad);
+      const response = await PoaActividadDB.query(sql, [
+        presupuesto_ulizado,
+        secuencial,
+      ]);
+      res.json({
+        message: "Presupuesto Actualizado",
+        body: { estado: { presupuesto_ulizado, secuencial } },
+      });
+    } catch (error) {
+      res.json({ error });
+    }
+  };
+
 }

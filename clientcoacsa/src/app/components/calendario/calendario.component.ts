@@ -13,19 +13,9 @@ import { ObservacionService } from 'src/app/services/proceso/observacion.service
   styleUrls: ['./calendario.component.css'],
 })
 export class CalendarioComponent implements OnInit {
-  observacion: Observacion[] = [];
-  secpoac: number = -1;
+
   actividadCurrent: any;
-  ObservacionSelected: Observacion = {
-    secuencial: -1,
-    nombre_observacion: '',
-    secuencial_poa_actividad: -1,
-    nombre_actividad: '',
-    secuencial_calendario: -1,
-    mes: '',
-    fecha: '',
-    entregables: '',
-  };
+  
   public poaActividad: PoaActividad[] = [];
 
   public obserCal: Observacion[] = [];
@@ -41,6 +31,7 @@ export class CalendarioComponent implements OnInit {
     secuencial_calendario: 1,
     secuencial_poa_actividad: -1,
     secPoaActividad: -1,
+    presupuesto_utilizado:0.0,
   };
 
   //datos originales desde la base datos
@@ -158,17 +149,6 @@ export class CalendarioComponent implements OnInit {
       )
       .subscribe((r) => {
         console.log('Actualizado');
-      });
-  }
-
-  viewObservaciones(observacion: Observacion) {
-    this.observacion = [];
-    this.ObservacionSelected = observacion;
-    this.secpoac = observacion.secuencial_poa_actividad;
-    this.obService
-      .getObservacionesByPOActividad(this.secpoac)
-      .subscribe((obserPoa) => {
-        this.observacion = obserPoa;
       });
   }
 

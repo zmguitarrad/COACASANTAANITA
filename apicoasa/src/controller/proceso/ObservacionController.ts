@@ -30,10 +30,14 @@ export class ObservacionController {
           const ObservacionDB = getRepository(proceso_observacion);
           const secuencial = req.params.secuencial;
           const response = await ObservacionDB.query(
-            `select ob.secuencial, ob.nombre_observacion,pac.secuencial as "secuencial_poa_actividad",ac.nombre_actividad, ca.secuencial as "secuencial_calendario", ca.mes, ob.fecha, ob.entregables  from mando_integral_poa_actividad pac 
-            inner join proceso_observacion ob on ob.secuencial_poa_actividad=pac.secuencial
-			inner join proceso_actividad ac on ac.secuencial = pac.secuencial_actividad
-			inner join generales_calendario ca on ca.secuencial = pac.secuencial_calendario
+            `select ob.secuencial, ob.nombre_observacion,
+            pac.secuencial as "secuencial_poa_actividad",ac.nombre_actividad, 
+            ca.secuencial as "secuencial_calendario", ca.mes, ob.fecha, ob.entregables,
+            pac.presupuesto_utilizado
+            from mando_integral_poa_actividad pac 
+                       inner join proceso_observacion ob on ob.secuencial_poa_actividad=pac.secuencial
+                       inner join proceso_actividad ac on ac.secuencial = pac.secuencial_actividad
+                       inner join generales_calendario ca on ca.secuencial = pac.secuencial_calendario
             where pac.secuencial=$1;
             `,
             [secuencial]
