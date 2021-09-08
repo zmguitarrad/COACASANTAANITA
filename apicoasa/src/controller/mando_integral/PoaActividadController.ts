@@ -91,7 +91,7 @@ export class PoaActividadController {
       secuencial_actividad,
       secuencial_estado,
       secuencial_calendario,
-      presupuesto_utilizado,
+      presupuesto_ulizado,
       presupuesto,
       secuencial_postergacion,
     } = req.body;
@@ -145,7 +145,7 @@ export class PoaActividadController {
     poactividad.secuencial_estado = secuencial_estado;
     poactividad.secuencial_calendario = secuencial_calendario;
     poactividad.presupuesto = presupuesto;
-    poactividad.presupuesto_utilizado = presupuesto_utilizado;
+    poactividad.presupuesto_ulizado = presupuesto_ulizado;
     
     poactividad.secuencial_postergacion = secuencial_postergacion;
 
@@ -246,7 +246,7 @@ export class PoaActividadController {
     const presupuesto_ulizado = req.params.presupuesto_ulizado;
     const secuencial = req.params.secuencial;
     const sql = `
-      update mando_integral_poa_actividad  set presupuesto_utilizado=$1
+      update mando_integral_poa_actividad  set presupuesto_ulizado=$1
       where secuencial=$2
         ;`;
     try {

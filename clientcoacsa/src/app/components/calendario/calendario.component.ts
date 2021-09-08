@@ -31,7 +31,7 @@ export class CalendarioComponent implements OnInit {
     secuencial_calendario: 1,
     secuencial_poa_actividad: -1,
     secPoaActividad: -1,
-    presupuesto_utilizado:0.0,
+ 
   };
 
   //datos originales desde la base datos

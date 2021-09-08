@@ -7,5 +7,5 @@ export interface Observacion{
     mes: string;
     fecha: string;
     entregables: string;
-    presupuesto_utilizado:number;
+
   }

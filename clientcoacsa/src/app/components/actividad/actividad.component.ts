@@ -42,7 +42,7 @@ export class ActividadComponent implements OnInit {
     secuencial: 0,
     secuencial_calendario: 0,
     secuencial_poa_actividad: 0,
-    presupuesto_utilizado:0.0,
+
   };
 
   constructor(

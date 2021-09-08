@@ -33,7 +33,7 @@ export class ObservacionController {
             `select ob.secuencial, ob.nombre_observacion,
             pac.secuencial as "secuencial_poa_actividad",ac.nombre_actividad, 
             ca.secuencial as "secuencial_calendario", ca.mes, ob.fecha, ob.entregables,
-            pac.presupuesto_utilizado
+            pac.presupuesto_ulizado
             from mando_integral_poa_actividad pac 
                        inner join proceso_observacion ob on ob.secuencial_poa_actividad=pac.secuencial
                        inner join proceso_actividad ac on ac.secuencial = pac.secuencial_actividad
