@@ -15,6 +15,7 @@ import { ObservacionService } from 'src/app/services/proceso/observacion.service
 export class CalendarioComponent implements OnInit {
   observacion: Observacion[] = [];
   secpoac: number = -1;
+  actividadCurrent: any;
   ObservacionSelected: Observacion = {
     secuencial: -1,
     nombre_observacion: '',
@@ -39,6 +40,7 @@ export class CalendarioComponent implements OnInit {
     secuencial: -1,
     secuencial_calendario: 1,
     secuencial_poa_actividad: -1,
+    secPoaActividad: -1,
   };
 
   //datos originales desde la base datos
@@ -49,6 +51,7 @@ export class CalendarioComponent implements OnInit {
   actividades: any = [];
 
   months: any[] = [];
+  monthsAux: any[] = [];
 
   secAnio: number = -1;
 
@@ -85,9 +88,9 @@ export class CalendarioComponent implements OnInit {
           this.secAnio = query.secAnio;
           this.getActividadesFromDB(query.secActividad);
         });
-
-       
       });
+
+    this.monthsAux = getMonthsOfYear();
   }
 
   getActividadesFromDB(secActividad: number) {
@@ -98,7 +101,6 @@ export class CalendarioComponent implements OnInit {
       .subscribe((actvsCal) => {
         //Actividades originales (solo las que estan en la base de datos)
         this.actvsCal = actvsCal;
-        console.log(this.actvsCal);
         //Todas las actividades durante el año
         this.actividades = this.getActividades();
       });
@@ -126,6 +128,7 @@ export class CalendarioComponent implements OnInit {
           mes: month.mes,
           secuencialMes: month.secuencial,
           secPoaActividad: response.secuencial_poa_actividad,
+          flagPostergar: response.secuencial === 4 ? true : false,
         };
       } else {
         return {
@@ -135,6 +138,7 @@ export class CalendarioComponent implements OnInit {
           mes: month.mes,
           secuencialMes: month.secuencial,
           secPoaActividad: -1,
+          flagPostergar: false,
         };
       }
     });
@@ -169,11 +173,13 @@ export class CalendarioComponent implements OnInit {
   }
 
   viewObservacion(poaActividad: PoaActividad) {
-    this.obserCal = [];
-    this.poaActividadSelected = poaActividad;
-    this.secPoaActividad = poaActividad.secuencial;
+    // this.obserCal = [];
+    // this.poaActividadSelected = poaActividad;
+    // this.secPoaActividad = poaActividad.secuencial;
+  
+    
     this.obService
-      .getObservacionesByPOActividad(this.secPoaActividad)
+      .getObservacionesByPOActividad(poaActividad.secPoaActividad)
       .subscribe((obserCal) => {
         this.obserCal = obserCal;
       });
@@ -187,16 +193,37 @@ export class CalendarioComponent implements OnInit {
         .postergar(r[0], this.secAnio, this.secActividad, this.postergar)
         .subscribe((r) => {
           this.getActividadesFromDB(this.secActividad);
+          this.actividadCurrent.flagDisabled = true;
         });
     });
   }
 
-  setData(postergar: HTMLSelectElement, secPoaAct: number) {
+  setData(postergar: HTMLSelectElement, actividad: any) {
     this.postergar = Number(postergar.value);
-    this.secPoaAct = secPoaAct;
+    console.log(postergar.value);
+    this.secPoaAct = actividad.secPoaActividad;
+    this.actividadCurrent = actividad;
   }
 
-  getMonths() {
-    return getMonthsOfYear();
+  getActividadToMonth(month: string) {
+    return this.months.find((m) => m.mes.toUpperCase() === month.toUpperCase());
+  }
+
+  getMonths(month: string) {
+    const { id } = this.monthsAux.find(
+      (m: any) => m.month.toUpperCase() === month.toUpperCase()
+    );
+    const nextMonth = id + 1;
+    const monthsValid = this.monthsAux.filter((m) => {
+      if (m.id >= nextMonth) {
+        m.month = m.month.toUpperCase();
+        const found = this.getActividadToMonth(m.month);
+        m.mes = found.mes;
+        m.secuencial = found.secuencial;
+        m.secuencial_anio = found.secuencial_anio;
+        return { ...m };
+      }
+    });
+    return monthsValid;
   }
 }

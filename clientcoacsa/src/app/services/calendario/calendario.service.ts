@@ -23,13 +23,11 @@ export class CalendarioService {
   }
 
   postergar(
-    poaFound: any, 
+    poaFound: any,
     secuencialPoaMaestro: number,
     secuencialActividad: number,
     secuencialCalendario: number
-    ) {
-      console.log(poaFound);
-      
+  ) {
     const poaActividad = {
       presupuesto: poaFound.presupuesto,
       presupuesto_ulizado: poaFound.presupuesto_ulizado,
@@ -48,7 +46,7 @@ export class CalendarioService {
       },
     };
     console.log(poaActividad);
-    
+
     return this._http.post(`${API.poa}/poactividad/`, poaActividad);
   }
 

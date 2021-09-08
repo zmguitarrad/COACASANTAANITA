@@ -21,4 +21,5 @@ export interface Actividad{
     "secuencial_calendario": number,
     "secuencial_poa_actividad": number;
     nombre_objetivo_perspectiva:string;
+    secPoaActividad?: number
   }

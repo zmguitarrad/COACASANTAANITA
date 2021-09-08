@@ -19,7 +19,7 @@
             <th class="text-center">{{ actividad.mes }}</th>
             <th class="text-center" *ngIf="actividad.estado; else select">
               <div>
-                <select
+                <select [disabled]="actividad.flagPostergar"
                   #selectEstado
                   [value]="actividad.secEstado.toString()"
                   (change)="onChangeActividad(actividad, selectEstado)"
@@ -33,11 +33,11 @@
             </th>
             <th class="text-center">
               <!-- <input *ngIf="actividad.secEstado === 4" type="month" name="months" id="months"> -->
-              <div *ngIf="actividad.secEstado === 4">
+              <div *ngIf="actividad.secEstado === 4 && actividad.flagPostergar === false">
                 <select #selectPostergar>
                   <option
-                    *ngFor="let month of actividades; let i = index"
-                    [value]="month.secuencialMes"
+                    *ngFor="let month of getMonths(actividad.mes); let i = index"
+                    [value]="month.secuencial"
                   >
                     {{ month.mes }}
                   </option>
@@ -45,7 +45,7 @@
                 <button
                   type="button"
                   class="btn btn-primary btn-sm"
-                  (click)="setData(selectPostergar, actividad.secPoaActividad)"
+                  (click)="setData(selectPostergar, actividad)"
                   data-toggle="modal"
                   data-target="#exampleModal2"
                 >
@@ -147,54 +147,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="table">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+              <tr *ngFor="let p of obserCal">
+                <th scope="row">{{p.secuencial}}</th>
+                <td>{{p.nombre_observacion}}</td>
+                <td>{{(p.fecha)}}</td>
+                <td>{{p.entregables}}</td>
               </tr>
             </tbody>
           </table>
