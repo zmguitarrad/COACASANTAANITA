@@ -124,7 +124,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
-            
+
           </h5>
           <button
             type="button"
@@ -153,14 +153,31 @@
                 <td>{{p.nombre_observacion}}</td>
                 <td>{{(p.fecha)}}</td>
                 <td>{{(p.presupuesto_utilizado)}}</td>
-                <td>{{p.entregables}}</td>
+                <td><a [href]="p.entregables" target="_blank">Ver</a></td>
               </tr>
             </tbody>
           </table>
+          <div class="conainter">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input [(ngModel)]="activeField" type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+              </div>
+              <div class="input-group-append">
+                <input
+                  type="text"
+                  class="form-control"
+                  [disabled]="!activeField"
+                  value="50.00"
+                  aria-label="Text input with checkbox">
+                <button [disabled]="!activeField" class="btn btn-primary" type="button" id="button-addon2">Actualizar</button>
+              </div>
+            </div>
+          </div>
         </div>
+        <form role="form"  (ngSubmit)="createObsertvation($event)">
         <div class="modal-body">
-          <form role="form">
-            <div class="modal-body">
               <div class="form-group">
                 <label for="message-text" class="col-form-label"
                   >Observación:</label
@@ -168,26 +185,26 @@
                 <textarea
                   class="form-control"
                   id="message-text"
+                  name="observacion"
                   placeholder="Añadir nueva observación"
                 ></textarea>
               </div>
-            </div>
             <div class="form-group">
               <label for="inputState"
                 ><strong>Adjutantar un archivo: </strong></label
               >
               <div class="card-body text-left">
-                <input type="file" id="ejemplo_archivo_1" />
+                <input type="file" id="ejemplo_archivo_1" name="upload" />
               </div>
             </div>
-          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">
             Cerrar
           </button>
-          <button type="button" class="btn btn-success">Guardar cambios</button>
+          <button type="submit" class="btn btn-success">Guardar cambios</button>
         </div>
+        </form>
       </div>
     </div>
   </div>

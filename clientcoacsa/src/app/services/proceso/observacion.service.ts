@@ -20,4 +20,16 @@ export class ObservacionService {
       })
     );
   }
+
+  createObservacion(obs: string, secPoaAct: number){
+    const newObs = {
+      "nombre_observacion": obs,
+      "fecha": "CURRENT_TIME",
+      "entregables": "http://www.africau.edu/images/default/sample.pdf",
+      "secuencial_poa_actividad": {
+        "secuencial": secPoaAct
+      }
+    }
+    return this._http.post<any>(`${API.poa}/observacion/`, newObs);
+  }
 }

@@ -15,10 +15,13 @@ import { ObservacionService } from 'src/app/services/proceso/observacion.service
 export class CalendarioComponent implements OnInit {
 
   actividadCurrent: any;
-  
+
   public poaActividad: PoaActividad[] = [];
 
   public obserCal: Observacion[] = [];
+  public activeField = false;
+
+
   secPoaActividad: number = -1;
   poaActividadSelected: PoaActividad = {
     mes: '',
@@ -32,9 +35,6 @@ export class CalendarioComponent implements OnInit {
     secuencial_poa_actividad: -1,
     secPoaActividad: -1,
     presupuesto_utilizado:0
-
-
- 
   };
 
   //datos originales desde la base datos
@@ -100,6 +100,14 @@ export class CalendarioComponent implements OnInit {
       });
   }
 
+  createObsertvation(event: Event){
+    this.obService.createObservacion(
+      event.target['observacion'].value.toString().trim(),
+      this.secPoaActividad).subscribe(response=>{
+      console.log(response);
+    });
+  }
+
   checkActividad(month: string) {
     const monthUpperCase = month.toUpperCase();
     const poaFoundL = this.actvsCal.find(
@@ -158,9 +166,9 @@ export class CalendarioComponent implements OnInit {
   viewObservacion(poaActividad: PoaActividad) {
     // this.obserCal = [];
     // this.poaActividadSelected = poaActividad;
-    // this.secPoaActividad = poaActividad.secuencial;
-  
-    
+    this.secPoaActividad = poaActividad.secPoaActividad;
+
+
     this.obService
       .getObservacionesByPOActividad(poaActividad.secPoaActividad)
       .subscribe((obserCal) => {

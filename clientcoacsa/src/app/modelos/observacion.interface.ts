@@ -8,5 +8,4 @@ export interface Observacion{
     fecha: string;
     entregables: string;
     presupuesto_utilizado:number
-
   }
