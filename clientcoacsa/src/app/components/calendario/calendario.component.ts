@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observacion } from 'src/app/modelos/observacion.interface';
 import { ObservacionService } from 'src/app/services/proceso/observacion.service';
+import {PoaService} from "../../services/poa/poa.service";
 
 @Component({
   selector: 'app-calendario',
@@ -59,7 +60,8 @@ export class CalendarioComponent implements OnInit {
   constructor(
     private calService: CalendarioService,
     activatedRoute: ActivatedRoute,
-    private obService: ObservacionService
+    private obService: ObservacionService,
+    private poaService: PoaService
   ) {
     this.activatedRoute = activatedRoute;
   }
@@ -216,5 +218,16 @@ export class CalendarioComponent implements OnInit {
       }
     });
     return monthsValid;
+  }
+
+  updatePre(newpre: string){
+    this.poaService.updatePresupuesto(Number(newpre), this.secPoaActividad).subscribe(r=>{
+      console.log(r)
+    })
+  }
+
+  getValuePre(){
+    if (this.obserCal.length > 0) return this.obserCal[0].presupuesto_utilizado;
+    return "0.00";
   }
 }

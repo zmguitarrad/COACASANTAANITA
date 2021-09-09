@@ -23,4 +23,8 @@ export class PoaService {
   getPerspectivas(secPoa: number){
     return this._http.get<any[]>(`${API.poa}/perspectiva/usuario/poa/${secPoa}`);
   }
+
+  updatePresupuesto(pres: number, secuencial: number){
+    return this._http.put<any[]>(`${API.poa}/poactividad/presupuestoutilizado/${pres}/secuencial/${secuencial}`,{});
+  }
 }

@@ -169,9 +169,10 @@
                   type="text"
                   class="form-control"
                   [disabled]="!activeField"
-                  value="50.00"
+                  [value]="getValuePre()"
+                  #newpre
                   aria-label="Text input with checkbox">
-                <button [disabled]="!activeField" class="btn btn-primary" type="button" id="button-addon2">Actualizar</button>
+                <button [disabled]="!activeField" class="btn btn-primary"  (click)="updatePre(newpre.value)" type="button" id="button-addon2">Actualizar</button>
               </div>
             </div>
           </div>
