@@ -38,7 +38,8 @@ export class ObservacionController {
                        inner join proceso_observacion ob on ob.secuencial_poa_actividad=pac.secuencial
                        inner join proceso_actividad ac on ac.secuencial = pac.secuencial_actividad
                        inner join generales_calendario ca on ca.secuencial = pac.secuencial_calendario
-            where pac.secuencial=$1;
+            where pac.secuencial=$1
+            order by ob.secuencial;
             `,
             [secuencial]
           );

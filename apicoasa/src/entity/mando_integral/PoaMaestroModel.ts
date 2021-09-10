@@ -6,6 +6,7 @@ import { generales_anio } from "../generales/AnioModel";
 import { mando_integral_plan_estrategico } from "./PlanEstrategicoModel";
 import { mando_integral_poa_actividad } from "./PoaActividadModel";
 import { proceso_actividad } from "../proceso/ActividadModel";
+import { mando_integral_poa_actividad_presupuesto } from "./PoaActPresupuestoModel";
 
 
 @Entity()
@@ -41,4 +42,7 @@ export class mando_integral_poa_maestro {
  
     @OneToMany(() => proceso_actividad, actividadpoa => actividadpoa.secuencial_poa_maestro, { cascade: true })
     actividadpoa: proceso_actividad[];
+
+    @OneToMany(() => mando_integral_poa_actividad_presupuesto, poapresupuesto => poapresupuesto.secuencial_poa_maestro, { cascade: true })
+    poapresupuesto: mando_integral_poa_actividad_presupuesto[];
 }

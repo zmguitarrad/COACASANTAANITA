@@ -8,6 +8,7 @@ import { proceso_observacion } from "./ObservacionModel";
 import { seguridades_role } from "../seguridades/RoleModel";
 import { mando_integral_poa_actividad } from "../mando_integral/PoaActividadModel";
 import { mando_integral_poa_maestro } from "../mando_integral/PoaMaestroModel";
+import { mando_integral_poa_actividad_presupuesto } from "../mando_integral/PoaActPresupuestoModel";
 
 
 @Entity()
@@ -56,6 +57,9 @@ export class proceso_actividad {
     
     @OneToMany(() => mando_integral_poa_actividad, poactividad => poactividad.secuencial_actividad, { cascade: true })
     poactividad: mando_integral_poa_actividad[];
+    
+    @OneToMany(() => mando_integral_poa_actividad_presupuesto, actividadpresupuesto => actividadpresupuesto.secuencial_actividad, { cascade: true })
+    actividadpresupuesto: mando_integral_poa_actividad_presupuesto[];
 
     
 
