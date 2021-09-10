@@ -45,10 +45,10 @@
                 </select>
                 <button
                   type="button"
+                  (click)="viewObservacion(actividad, selectPostergar)"
                   class="btn btn-primary btn-sm"
-                  (click)="setData(selectPostergar, actividad)"
                   data-toggle="modal"
-                  data-target="#exampleModal2"
+                  data-target="#exampleModal"
                 >
                   Guardar
                 </button>
@@ -177,7 +177,7 @@
             </div>
           </div>
         </div>
-        <form role="form"  (ngSubmit)="createObsertvation($event)">
+        <form role="form"  #dataForm >
         <div class="modal-body">
               <div class="form-group">
                 <label for="message-text" class="col-form-label"
@@ -203,7 +203,9 @@
           <button type="button" class="btn btn-danger" data-dismiss="modal">
             Cerrar
           </button>
-          <button type="submit" class="btn btn-success">Guardar cambios</button>
+          <button [hidden]="!flagButtons" type="button" (click)="createObsertvation(dataForm)" class="btn btn-success"  data-toggle="modal"
+                  data-target="#exampleModal2" data-dismiss="modal">Guardar cambios</button>
+          <button [hidden]="flagButtons" type="button" (click)="createObsertvation(dataForm)" data-dismiss="modal" class="btn btn-success">Guardar cambios</button>
         </div>
         </form>
       </div>

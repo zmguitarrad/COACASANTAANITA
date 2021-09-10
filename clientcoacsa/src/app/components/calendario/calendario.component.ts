@@ -50,7 +50,7 @@ export class CalendarioComponent implements OnInit {
 
   secAnio: number = -1;
 
-  flag = false;
+  flagButtons = false;
   postergar: number;
   secPoaAct: number;
 
@@ -102,9 +102,9 @@ export class CalendarioComponent implements OnInit {
       });
   }
 
-  createObsertvation(event: Event){
-    this.obService.createObservacion(
-      event.target['observacion'].value.toString().trim(),
+  createObsertvation(form: HTMLFormElement){
+    const obs = form.elements.item(0)['value'].toString().trim();
+    this.obService.createObservacion(obs,
       this.secPoaActividad).subscribe(response=>{
       console.log(response);
     });
@@ -167,11 +167,16 @@ export class CalendarioComponent implements OnInit {
       });
   }
 
-  viewObservacion(poaActividad: PoaActividad) {
+  viewObservacion(poaActividad: PoaActividad, postergar: HTMLSelectElement = null) {
     // this.obserCal = [];
     // this.poaActividadSelected = poaActividad;
     this.secPoaActividad = poaActividad.secPoaActividad;
-
+    if (postergar){
+      this.setData(postergar, poaActividad);
+      this.flagButtons = true;
+    }else{
+      this.flagButtons = false;
+    }
 
     this.obService
       .getObservacionesByPOActividad(poaActividad.secPoaActividad)
