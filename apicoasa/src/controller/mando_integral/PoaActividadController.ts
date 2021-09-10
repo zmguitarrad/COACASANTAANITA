@@ -40,14 +40,13 @@ export class PoaActividadController {
       const secuencial = req.params.secuencial;
 
       const response = await CalendarioDB.query(
-        `
-            select ca.mes, pra.nombre_actividad,pac.secuencial as "secuencial_poa_actividad" ,ca.secuencial as "secuencial_calendario" , an.anio, ge.nombre_estado, ge.secuencial from generales_calendario ca
-            left join generales_anio an on an.secuencial = ca.secuencial_anio
-            left join mando_integral_poa_actividad pac on pac.secuencial_calendario=ca.secuencial
-            left join proceso_actividad pra on pra.secuencial=pac.secuencial_actividad
-            left join generales_estado ge on ge.secuencial =pac.secuencial_estado 
-            where an.secuencial=$1 and pra.secuencial=$2
-            order by an.anio
+        `select ca.mes, pra.nombre_actividad,pac.secuencial as "secuencial_poa_actividad" ,ca.secuencial as "secuencial_calendario" , an.anio, ge.nombre_estado, ge.secuencial,pac.presupuesto_utilizado from generales_calendario ca
+        left join generales_anio an on an.secuencial = ca.secuencial_anio
+        left join mando_integral_poa_actividad pac on pac.secuencial_calendario=ca.secuencial
+        left join proceso_actividad pra on pra.secuencial=pac.secuencial_actividad
+        left join generales_estado ge on ge.secuencial =pac.secuencial_estado 
+        where an.secuencial=$1 and pra.secuencial=$2
+        order by an.anio
             ;
             `,
         [anio, secuencial]

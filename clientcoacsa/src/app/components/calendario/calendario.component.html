@@ -8,10 +8,11 @@
       <table class="table table-bordered">
         <thead class="thead">
           <tr>
-            <th>MESES</th>
-            <th>ESTADO</th>
-            <th>POSTERGAR</th>
-            <th>OBSERVACIONES</th>
+            <th class="text-center">MESES</th>
+            <th class="text-center">ESTADO</th>
+            <th class="text-center">POSTERGAR</th>
+            <th class="text-center">PRESUPUESTO UTILIZADO</th>
+            <th class="text-center">OBSERVACIONES</th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +54,7 @@
                 </button>
               </div>
             </th>
+            <th class="text-center">{{actividad.presupuesto_utilizado}}</th>
             <th class="text-center">
               <button
                 type="button"
@@ -143,16 +145,14 @@
                 <th scope="col">Nro</th>
                 <th scope="col">Observación</th>
                 <th scope="col">Fecha</th>
-                <th scope="col">Presupuesto Utilizado</th>
                 <th scope="col">Entregables</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let p of obserCal">
                 <th scope="row">{{p.secuencial}}</th>
-                <td>{{p.nombre_observacion}}</td>
-                <td>{{(p.fecha)}}</td>
-                <td>{{(p.presupuesto_utilizado)}}</td>
+                <td class="text-center">{{p.nombre_observacion}}</td>
+                <td class="text-center">{{(p.fecha)}}</td>
                 <td><a [href]="p.entregables" target="_blank">Ver</a></td>
               </tr>
             </tbody>
