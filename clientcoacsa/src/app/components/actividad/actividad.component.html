@@ -50,6 +50,7 @@
             <th scope="col" class="text-center">Personal de Apoyo</th>
             <th scope="col" class="text-center">Entregables</th>
             <th scope="col" class="text-center">Avance</th>
+            <th scope="col" class="text-center">Presupuesto global</th>
             <th scope="col" class="text-center">Presupuesto</th>
             <th scope="col" class="text-center">Programación</th>
           </tr>
@@ -64,8 +65,9 @@
             <td scope="row" class="text-center">{{ ac.nombre_rol }}</td>
             <td class="text-center">{{ ac.personal_apoyo }}</td>
             <td class="text-center">{{ ac.entregables }}</td>
-            <td class="text-center">{{ ac.avance }}</td>
-            <td class="text-center">{{ ac["pp"] }}</td>
+            <td class="text-center">{{ ac.avance }} %</td>
+            <td class="text-center">{{ ac["global"] }}</td>
+            <td class="text-center">{{ ac["pp"] }} %</td>
             <td class="text-center">
               <button
                 type="button"

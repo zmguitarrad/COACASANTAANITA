@@ -176,6 +176,7 @@ export class ActividadController {
           total: preFound.total,
           global,
           pp,
+          prsGlobal
         };
         actvsFounds.push(actv_);
       });

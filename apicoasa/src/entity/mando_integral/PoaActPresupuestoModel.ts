@@ -13,7 +13,7 @@ export class mando_integral_poa_actividad_presupuesto {
     secuencial: number;
 
     @ManyToOne(() => mando_integral_poa_maestro, poamaestro => poamaestro.poapresupuesto)
-    @JoinColumn([{ name: "secuencial_poa_maesro", referencedColumnName: "secuencial" }])
+    @JoinColumn([{ name: "secuencial_poa_maestro", referencedColumnName: "secuencial" }])
     @IsNotEmptyObject()
     secuencial_poa_maestro: mando_integral_poa_maestro;
 
