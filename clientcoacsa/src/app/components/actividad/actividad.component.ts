@@ -20,6 +20,7 @@ export class ActividadComponent implements OnInit {
   secAnio: number = -1;
   secActividad: number = -1;
   perspectivas: any[] = [];
+  presupuestos: { secuencial_actividad: number; total: number }[];
   title = 'GENERALES';
   actividadSelected: Actividad = {
     secuencial: -1,
@@ -42,8 +43,7 @@ export class ActividadComponent implements OnInit {
     secuencial: 0,
     secuencial_calendario: 0,
     secuencial_poa_actividad: 0,
-    presupuesto_utilizado:0
-
+    presupuesto_utilizado: 0,
   };
 
   constructor(
@@ -65,10 +65,15 @@ export class ActividadComponent implements OnInit {
   getActividades(secuencial: number) {
     this.actividadService.getActividadesPoa(secuencial).subscribe((actvs) => {
       this.actividades = actvs;
+      console.log(this.actividades);
+      
       this.secAnio = secuencial;
     });
     this.poaService.getPerspectivas(secuencial).subscribe((ps) => {
       this.perspectivas = ps;
+    });
+    this.actividadService.getPresupuestos().subscribe((r) => {
+      console.log(r);
     });
   }
 

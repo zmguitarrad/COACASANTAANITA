@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import { getRepository, ILike } from "typeorm";
 import { Request, Response } from "express";
 import { mando_integral_poa_actividad } from "../../entity/mando_integral/PoaActividadModel";
 import { validate } from "class-validator";
@@ -40,14 +40,15 @@ export class PoaActividadController {
       const secuencial = req.params.secuencial;
 
       const response = await CalendarioDB.query(
-        `select ca.mes, pra.nombre_actividad,pac.secuencial as "secuencial_poa_actividad" ,ca.secuencial as "secuencial_calendario" , an.anio, ge.nombre_estado, ge.secuencial,pac.presupuesto_utilizado from generales_calendario ca
+        `select ca.mes, pra.nombre_actividad,pac.secuencial 
+        as "secuencial_poa_actividad", pac.presupuesto, pra.secuencial_poa_maestro, 
+        ca.secuencial as "secuencial_calendario" , an.anio, ge.nombre_estado, ge.secuencial,pac.presupuesto_utilizado from generales_calendario ca
         left join generales_anio an on an.secuencial = ca.secuencial_anio
         left join mando_integral_poa_actividad pac on pac.secuencial_calendario=ca.secuencial
         left join proceso_actividad pra on pra.secuencial=pac.secuencial_actividad
         left join generales_estado ge on ge.secuencial =pac.secuencial_estado 
         where an.secuencial=$1 and pra.secuencial=$2
-        order by an.anio
-            ;
+        order by an.anio;
             `,
         [anio, secuencial]
       );
@@ -83,6 +84,37 @@ export class PoaActividadController {
     } catch (error) {
       res.json({ error });
     }
+  };
+
+  static getPresupuestosUtilizados = async (req: Request, res: Response) => {
+    const PoaActividadDB = getRepository(mando_integral_poa_actividad);
+    const ProcesoActividadDB = getRepository(proceso_actividad);
+
+    const prs = await PoaActividadDB.find({
+      loadRelationIds: true,
+    });
+
+    const prsActvs = await ProcesoActividadDB.find({
+      select: ["secuencial"],
+    });
+
+    const auxArray = [];
+
+    for (const { secuencial } of prsActvs) {
+      let auxTotal = 0;
+      for (const pActividad of prs) {
+        if (<unknown>pActividad.secuencial_actividad === secuencial) {
+          auxTotal =
+            auxTotal + Number(pActividad.presupuesto_utilizado.toString());
+        }
+      }
+      auxArray.push({
+        secuencial_actividad: secuencial,
+        total: auxTotal,
+      });
+    }
+
+    return res.json(auxArray);
   };
   static createPoaActividad = async (req: Request, res: Response) => {
     const {
@@ -145,7 +177,7 @@ export class PoaActividadController {
     poactividad.secuencial_calendario = secuencial_calendario;
     poactividad.presupuesto = presupuesto;
     poactividad.presupuesto_utilizado = presupuesto_utilizado;
-    
+
     poactividad.secuencial_postergacion = secuencial_postergacion;
 
     const validationOpt = { validationError: { target: false, value: false } };
@@ -161,15 +193,19 @@ export class PoaActividadController {
     const secuencial_calendario_t = secuencial_postergacion;
 
     const sql = `UPDATE mando_integral_poa_actividad 
-        set secuencial_estado=$1 
+        set secuencial_estado=$1, presupuesto_utilizado=0
         where secuencial_actividad = $2 and secuencial_calendario = $3`;
 
     try {
-      await poactividadBD.query(sql, [
-        secuencial_estado_t,
-        secuencial_actividad_t,
-        secuencial_calendario_t,
-      ]);
+      //updating
+      if (secuencial_postergacion) {
+        await poactividadBD.query(sql, [
+          secuencial_estado_t,
+          secuencial_actividad_t,
+          secuencial_calendario_t,
+        ]);
+      }
+      //saving
       response = await poactividadBD.save(poactividad);
     } catch (error) {
       return res.status(409).json({
@@ -227,8 +263,8 @@ export class PoaActividadController {
   static getPOActividadbySecuencial = async (req: Request, res: Response) => {
     try {
       const CalendarioDB = getRepository(mando_integral_poa_actividad);
-  
-      const secuencial= req.params.secuencial
+
+      const secuencial = req.params.secuencial;
       const response = await CalendarioDB.query(
         `
         select * from mando_integral_poa_actividad where secuencial =$1
@@ -241,7 +277,10 @@ export class PoaActividadController {
       res.json({ error }).status(209);
     }
   };
-  static updatePoaActividadPresupuestoUtilizado = async(req: Request, res: Response)=>{
+  static updatePoaActividadPresupuestoUtilizado = async (
+    req: Request,
+    res: Response
+  ) => {
     const presupuesto_ulizado = req.params.presupuesto_ulizado;
     const secuencial = req.params.secuencial;
     const sql = `
@@ -262,5 +301,4 @@ export class PoaActividadController {
       res.json({ error });
     }
   };
-
 }

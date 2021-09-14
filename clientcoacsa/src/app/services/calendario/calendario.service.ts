@@ -22,7 +22,31 @@ export class CalendarioService {
     );
   }
 
+  insertar(
+    secuencialPoaMaestro: number,
+    secuencialActividad: number,
+    secuencialCalendario: number
+  ) {
+    const poaActividad = {
+      presupuesto: '0',
+      presupuesto_utilizado: '0',
+      secuencial_postergacion: null,
+      secuencial_poa_maestro: {
+        secuencial: secuencialPoaMaestro,
+      },
+      secuencial_actividad: {
+        secuencial: secuencialActividad,
+      },
+      secuencial_estado: {
+        secuencial: 1,
+      },
+      secuencial_calendario: {
+        secuencial: secuencialCalendario,
+      },
+    };
 
+    return this._http.post(`${API.poa}/poactividad/`, poaActividad);
+  }
 
   postergar(
     poaFound: any,

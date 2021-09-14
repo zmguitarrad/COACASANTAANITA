@@ -1,12 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PoaActividad, Actividad } from 'src/app/modelos/actividad.interface';
 import { CalendarioService } from '../../services/calendario/calendario.service';
-import { getMonthsOfYear } from '../../services/util/util.app';
+import {
+  checkMonth,
+  getMonthsOfYear,
+  checkMonthNext,
+} from '../../services/util/util.app';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observacion } from 'src/app/modelos/observacion.interface';
 import { ObservacionService } from 'src/app/services/proceso/observacion.service';
-import {PoaService} from "../../services/poa/poa.service";
+import { PoaService } from '../../services/poa/poa.service';
 
 @Component({
   selector: 'app-calendario',
@@ -14,7 +18,6 @@ import {PoaService} from "../../services/poa/poa.service";
   styleUrls: ['./calendario.component.css'],
 })
 export class CalendarioComponent implements OnInit {
-
   actividadCurrent: any;
 
   public poaActividad: PoaActividad[] = [];
@@ -22,6 +25,7 @@ export class CalendarioComponent implements OnInit {
   public obserCal: Observacion[] = [];
   public activeField = false;
 
+  currentMonth = new Date();
 
   secPoaActividad: number = -1;
   poaActividadSelected: PoaActividad = {
@@ -35,7 +39,7 @@ export class CalendarioComponent implements OnInit {
     secuencial_calendario: 1,
     secuencial_poa_actividad: -1,
     secPoaActividad: -1,
-    presupuesto_utilizado:0
+    presupuesto_utilizado: 0,
   };
 
   //datos originales desde la base datos
@@ -97,17 +101,20 @@ export class CalendarioComponent implements OnInit {
       .subscribe((actvsCal) => {
         //Actividades originales (solo las que estan en la base de datos)
         this.actvsCal = actvsCal;
+        console.log(this.actvsCal);
         //Todas las actividades durante el año
         this.actividades = this.getActividades();
+       
       });
   }
 
-  createObsertvation(form: HTMLFormElement){
+  createObsertvation(form: HTMLFormElement) {
     const obs = form.elements.item(0)['value'].toString().trim();
-    this.obService.createObservacion(obs,
-      this.secPoaActividad).subscribe(response=>{
-      console.log(response);
-    });
+    this.obService
+      .createObservacion(obs, this.secPoaActividad)
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
 
   checkActividad(month: string) {
@@ -133,7 +140,7 @@ export class CalendarioComponent implements OnInit {
           secuencialMes: month.secuencial,
           secPoaActividad: response.secuencial_poa_actividad,
           presupuesto_utilizado: response.presupuesto_utilizado,
-          flagPostergar: response.secuencial === 4 ? true:false,
+          flagPostergar: response.secuencial === 4 ? true : false,
         };
       } else {
         return {
@@ -167,14 +174,17 @@ export class CalendarioComponent implements OnInit {
       });
   }
 
-  viewObservacion(poaActividad: PoaActividad, postergar: HTMLSelectElement = null) {
+  viewObservacion(
+    poaActividad: PoaActividad,
+    postergar: HTMLSelectElement = null
+  ) {
     // this.obserCal = [];
-    // this.poaActividadSelected = poaActividad;
+    this.poaActividadSelected = poaActividad;
     this.secPoaActividad = poaActividad.secPoaActividad;
-    if (postergar){
+    if (postergar) {
       this.setData(postergar, poaActividad);
       this.flagButtons = true;
-    }else{
+    } else {
       this.flagButtons = false;
     }
 
@@ -185,7 +195,18 @@ export class CalendarioComponent implements OnInit {
       });
   }
 
-  onChangePostergar(postergar: HTMLSelectElement, secPoaAct: number) {}
+  setActSelected(actividad) {
+    this.poaActividadSelected = actividad;
+    this.postergar = this.poaActividadSelected['secuencialMes'];
+  }
+
+  saveActividad() {
+    this.calService
+      .insertar(this.secAnio, this.secActividad, this.postergar)
+      .subscribe((r) => {
+        console.log(r);
+      });
+  }
 
   onClickPostergar() {
     this.calService.getPoaActividadById(this.secPoaAct).subscribe((r) => {
@@ -227,14 +248,24 @@ export class CalendarioComponent implements OnInit {
     return monthsValid;
   }
 
-  updatePre(newpre: string){
-    this.poaService.updatePresupuesto(Number(newpre), this.secPoaActividad).subscribe(r=>{
-      console.log(r)
-    })
+  updatePre(newpre: string) {
+    this.poaService
+      .updatePresupuesto(Number(newpre), this.secPoaActividad)
+      .subscribe((r) => {
+        console.log(r);
+      });
   }
 
-  getValuePre(){
+  getValuePre() {
     if (this.obserCal.length > 0) return this.obserCal[0].presupuesto_utilizado;
-    return "0.00";
+    return '0.00';
+  }
+
+  checkMonths(month: string) {
+    return checkMonth(month, this.currentMonth.getMonth());
+  }
+
+  checkMonthsNext(month: string) {
+    return checkMonthNext(month, this.currentMonth.getMonth());
   }
 }

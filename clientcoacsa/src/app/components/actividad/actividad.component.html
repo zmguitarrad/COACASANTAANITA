@@ -1,81 +1,118 @@
 <app-header></app-header>
-<div class="container mt-4">
+<div class="mt-4">
   <div class="row">
-      <div class="col-12 mb-2">
-        <div class="text-center">
-          <h2> <strong>LISTA DE ACTIVIDADES {{title}}</strong></h2>
+    <div class="col-12 mb-2">
+      <div class="text-center">
+        <h2>
+          <strong>LISTA DE ACTIVIDADES {{ title }}</strong>
+        </h2>
+      </div>
+      <div class="dropdown">
+        <button
+          class="btn btn-success dropdown-toggle"
+          type="button"
+          id="dropdownMenu2"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {{ title }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <button
+            class="dropdown-item"
+            (click)="changePerspective(-1)"
+            type="button"
+          >
+            GENERALES
+          </button>
+          <button
+            class="dropdown-item"
+            (click)="changePerspective(p.secuencial_perspectiva)"
+            *ngFor="let p of perspectivas"
+            type="button"
+          >
+            {{ p.nombre_perspectiva }}
+          </button>
         </div>
-        
-          <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             {{title}}
-            </button>
-           
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <button class="dropdown-item" (click)="changePerspective(-1)" type="button">
-                GENERALES
+      </div>
+    </div>
+    <div class="col-6 text-right"></div>
+    <div class="col">
+      <table
+        class="table table-striped table-responsive table-bordered table-hover"
+      >
+        <thead class="thead">
+          <tr>
+            <th scope="col" class="text-center">Objetivos</th>
+            <th scope="col" class="text-center">Nombre de la Actividad</th>
+            <th scope="col" class="text-center">Responsable</th>
+            <th scope="col" class="text-center">Personal de Apoyo</th>
+            <th scope="col" class="text-center">Entregables</th>
+            <th scope="col" class="text-center">Avance</th>
+            <th scope="col" class="text-center">Presupuesto</th>
+            <th scope="col" class="text-center">Programación</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let ac of actividades">
+            <th scope="row" class="text-center">
+              {{ ac.nombre_objetivo_perspectiva }}
+            </th>
+            <td scope="row" class="text-center">{{ ac.nombre_actividad }}</td>
+            <td scope="row" class="text-center">{{ ac.nombre_rol }}</td>
+            <td class="text-center">{{ ac.personal_apoyo }}</td>
+            <td class="text-center">{{ ac.entregables }}</td>
+            <td class="text-center">{{ ac.avance }}</td>
+            <td class="text-center">{{ ac["pp"] }}</td>
+            <td class="text-center">
+              <button
+                type="button"
+                (click)="goToCalendar(ac)"
+                class="btn btn-primary btn-block"
+              >
+                Calendario
               </button>
-              <button class="dropdown-item" (click)="changePerspective(p.secuencial_perspectiva)" *ngFor="let p of perspectivas" type="button">
-                {{p.nombre_perspectiva}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div
+        class="modal fade"
+        id="exampleModal"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                {{ actividadSelected.nombre_actividad }}
+              </h5>
+              <h6 class="modal-dialog" id="exampleModalLabel">
+                {{ actividadSelected.nombre_poa_maestro }}
+              </h6>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
               </button>
             </div>
-          </div>
-      </div>
-     <div class="col-6 text-right">
-        </div>
-      <div class="col">
-          <table class="table table-striped table-responsive table-bordered table-hover">
-              <thead class="thead">
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
                   <tr>
-                    <th scope="col" class="text-center">Objetivos</th>
-                    <th scope="col" class="text-center">Nombre de la Actividad</th>
-                    <th scope="col" class="text-center">Responsable</th>
-                      <th scope="col" class="text-center">Personal de Apoyo</th>
-                      <th scope="col" class="text-center">Entregables </th>
-                      <th scope="col" class="text-center">Avance </th>
-                      <th scope="col" class="text-center">Programación</th>
+                    <th *ngFor="let month of getMonths()" scope="col">
+                      {{ month }}
+                    </th>
                   </tr>
-              </thead>
-
-              <tbody>
-                <tr *ngFor="let ac of actividades;">
-                  
-                    <th scope="row" class="text-center">{{ac.nombre_objetivo_perspectiva}}</th>
-                    <td scope="row" class="text-center">{{ac.nombre_actividad}}</td>
-                    <td scope="row" class="text-center">{{ac.nombre_rol}}</td>
-                    <td class="text-center">{{ac.personal_apoyo}}</td>
-                    <td class="text-center">{{ac.entregables}}</td>
-                    <td class="text-center">{{ac.avance}}</td>
-                    <td class="text-center">
-               <button type="button" (click)="goToCalendar(ac)"
-                      class="btn btn-primary btn-block"
-                     
-              >Calendario</button>
-                    </td>
-                </tr>
-
-            </tbody>
-
-          </table>
-
-        <div class="modal fade" id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{actividadSelected.nombre_actividad}}</h5>
-                <h6 class="modal-dialog" id="exampleModalLabel">{{actividadSelected.nombre_poa_maestro}}</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                    <th *ngFor="let month of getMonths()" scope="col">{{month}}</th>
-                  </tr>
-                  </thead>
-                  <tbody>
+                </thead>
+                <tbody>
                   <!-- <tr>
                     <td *ngFor="let month of getMonths()">
                       <div *ngIf="checkActividad(month) else select">
@@ -90,22 +127,26 @@
                     </td>
 
                   </tr> -->
-                  </tbody>
-                </table>
+                </tbody>
+              </table>
 
-                <ng-template #select>
-                  NULL
-                </ng-template>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
+              <ng-template #select> NULL </ng-template>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
             </div>
           </div>
         </div>
-
       </div>
+    </div>
   </div>
 </div>
