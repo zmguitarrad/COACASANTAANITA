@@ -13,5 +13,6 @@ router.put('/calendario/:calendario/actividad/:actividad/secuencial/:secuencial'
 router.get('/months/:secuencial', PoaActividadController.getMonthsByYear);
 router.get('/:secuencial', PoaActividadController.getPOActividadbySecuencial );
 router.put('/presupuestoutilizado/:presupuesto_ulizado/secuencial/:secuencial', PoaActividadController.updatePoaActividadPresupuestoUtilizado );
+router.get('/secActividad/:secuencial_actividad/secCalendario/:secuencial_calendario', PoaActividadController.getPresupuestoByPoa);
 
 export default router;

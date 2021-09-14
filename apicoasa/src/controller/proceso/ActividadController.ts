@@ -26,7 +26,7 @@ async function getPresupuestos() {
   const auxArray = []; //total, secActividad
 
   for (const { secuencial } of prsActvs) {
-    let auxTotal = 0;//sumas parciales de cada actividad
+    let auxTotal = 0; //sumas parciales de cada actividad
     for (const pActividad of prs) {
       //Comprobar si el presupusto utlizado perteneces a la actividad
       if (<unknown>pActividad.secuencial_actividad === secuencial) {
@@ -67,6 +67,8 @@ export class ActividadController {
       res.status(404).json({ message: "No hay actividades todavia" });
     }
   };
+
+  
   static getActividadPrincipal = async (req: Request, res: Response) => {
     try {
       const ActividadDB = getRepository(proceso_actividad);
@@ -146,12 +148,14 @@ export class ActividadController {
           (p) =>
             p["secuencial_actividad"].toString() === actv.secuencial.toString()
         );
-
         //Encontrar el presupuesto global para esta actividad
         const prsFound = prsGlobal.find((p) => {
-          const actividad = <unknown>p.secuencial_actividad;
           //validar si ese presupuesto global le pertenece
-          if (actividad.toString() === p["secuencial_actividad"].toString()) {
+          //console.log(actividad.toString(), p["secuencial_actividad"].toString());
+
+          if (
+            actv.secuencial.toString() === p["secuencial_actividad"].toString()
+          ) {
             return p;
           }
           return null;

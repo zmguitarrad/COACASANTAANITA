@@ -86,6 +86,24 @@ export class PoaActividadController {
     }
   };
 
+  static getPresupuestoByPoa = async (req: Request, res: Response) => {
+    try {
+      const CalendarioDB = getRepository(mando_integral_poa_actividad);
+      const secuencial_actividad = req.params.secuencial_actividad;
+      const secuencial_calendario = req.params.secuencial_calendario;
+ 
+      const response = await CalendarioDB.query(
+        `select presupuesto_utilizado from public.mando_integral_poa_actividad
+        where secuencial_actividad = $1 and secuencial_calendario=$2;
+            `,
+        [secuencial_actividad, secuencial_calendario]
+      );
+      return res.json(response);
+    } catch (error) {
+      res.json({ error }).status(209);
+    }
+  };
+
   static getPresupuestosUtilizados = async (req: Request, res: Response) => {
     const PoaActividadDB = getRepository(mando_integral_poa_actividad);
     const ProcesoActividadDB = getRepository(proceso_actividad);

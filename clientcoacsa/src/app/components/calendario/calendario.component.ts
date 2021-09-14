@@ -86,6 +86,7 @@ export class CalendarioComponent implements OnInit {
         this.calService.getMonths(query.secAnio).subscribe((months) => {
           this.months = months;
           this.secAnio = query.secAnio;
+          this.secActividad = query.secActividad;
           this.getActividadesFromDB(query.secActividad);
         });
       });
@@ -95,7 +96,7 @@ export class CalendarioComponent implements OnInit {
 
   getActividadesFromDB(secActividad: number) {
     //Obtengos mis parametros del query
-    this.secActividad = secActividad;
+
     this.calService
       .getCalendarioActividades(this.secAnio, secActividad)
       .subscribe((actvsCal) => {
@@ -104,7 +105,6 @@ export class CalendarioComponent implements OnInit {
         console.log(this.actvsCal);
         //Todas las actividades durante el año
         this.actividades = this.getActividades();
-       
       });
   }
 
@@ -180,6 +180,7 @@ export class CalendarioComponent implements OnInit {
   ) {
     // this.obserCal = [];
     this.poaActividadSelected = poaActividad;
+
     this.secPoaActividad = poaActividad.secPoaActividad;
     if (postergar) {
       this.setData(postergar, poaActividad);
@@ -187,7 +188,14 @@ export class CalendarioComponent implements OnInit {
     } else {
       this.flagButtons = false;
     }
-
+    this.poaService
+      .getPresupuestoByPoa(
+        this.secActividad,
+        this.poaActividadSelected['secuencialCalendario']
+      )
+      .subscribe((pre) => {
+        console.log(pre);
+      });
     this.obService
       .getObservacionesByPOActividad(poaActividad.secPoaActividad)
       .subscribe((obserCal) => {
@@ -204,7 +212,7 @@ export class CalendarioComponent implements OnInit {
     this.calService
       .insertar(this.secAnio, this.secActividad, this.postergar)
       .subscribe((r) => {
-        console.log(r);
+        this.getActividadesFromDB(this.secActividad);
       });
   }
 
@@ -258,7 +266,7 @@ export class CalendarioComponent implements OnInit {
 
   getValuePre() {
     if (this.obserCal.length > 0) return this.obserCal[0].presupuesto_utilizado;
-    return '0.00';
+    return '0';
   }
 
   checkMonths(month: string) {
