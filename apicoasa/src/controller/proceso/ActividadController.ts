@@ -13,19 +13,22 @@ async function getPresupuestos() {
   const PoaActividadDB = getRepository(mando_integral_poa_actividad);
   const ProcesoActividadDB = getRepository(proceso_actividad);
 
+  //Poa presupuestos utilizados (mezcladas)
   const prs = await PoaActividadDB.find({
     loadRelationIds: true,
   });
 
+  //actividades ids (10...)
   const prsActvs = await ProcesoActividadDB.find({
     select: ["secuencial"],
   });
 
-  const auxArray = [];
+  const auxArray = []; //total, secActividad
 
   for (const { secuencial } of prsActvs) {
-    let auxTotal = 0;
+    let auxTotal = 0;//sumas parciales de cada actividad
     for (const pActividad of prs) {
+      //Comprobar si el presupusto utlizado perteneces a la actividad
       if (<unknown>pActividad.secuencial_actividad === secuencial) {
         auxTotal =
           auxTotal + Number(pActividad.presupuesto_utilizado.toString());
@@ -67,11 +70,14 @@ export class ActividadController {
   static getActividadPrincipal = async (req: Request, res: Response) => {
     try {
       const ActividadDB = getRepository(proceso_actividad);
+
       const presupuestoDB = getRepository(
         mando_integral_poa_actividad_presupuesto
       );
+
       const { secuencial } = res.locals.jwtPayload;
       const poa = req.params.poa;
+      //Arreglo de actividades
       const response = await ActividadDB.query(
         `select
             actividades.secuencial,actividades.nombre_actividad, actividades.nombre_objetivo_perspectiva, 
@@ -125,31 +131,42 @@ export class ActividadController {
             where actividades.usuarios=$1 and actividades.secuecialpoa=$2 `,
         [secuencial, poa]
       );
+
+      //la suma de presupuestos utilizados por cada actividad.
       const presupuestos = await getPresupuestos();
-      const actvsFounds = [];
+      const actvsFounds = []; //actividades con el porcentaje de presupuesto
+      // obtener los presupuestos global de actividad
       const prsGlobal = await presupuestoDB.find({
         loadRelationIds: true,
       });
 
       response.forEach((actv) => {
+        //Encontraar el presupuesto al que pertenece la actividad
         const preFound = presupuestos.find(
           (p) =>
             p["secuencial_actividad"].toString() === actv.secuencial.toString()
         );
+
+        //Encontrar el presupuesto global para esta actividad
         const prsFound = prsGlobal.find((p) => {
           const actividad = <unknown>p.secuencial_actividad;
+          //validar si ese presupuesto global le pertenece
           if (actividad.toString() === p["secuencial_actividad"].toString()) {
             return p;
           }
           return null;
         });
+
         let global = 0;
         let pp = 0;
+        //validando si el presupuesto global existe para esa actividad
         if (prsFound) {
           global = prsFound.presupuesto;
+          //Porcentaje
           pp = (preFound.total / Number(prsFound.presupuesto)) * 100;
         }
 
+        //Modelado
         const actv_ = {
           ...actv,
           total: preFound.total,
