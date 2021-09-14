@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {InputTextModule} from 'primeng/inputtext';
+import {PasswordModule} from 'primeng/password';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {DropdownModule} from 'primeng/dropdown';
 
 
 import { LoginComponent } from './components/login/login.component';
@@ -37,6 +39,12 @@ import { CalendarioComponent } from './components/calendario/calendario.componen
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatToolbarModule,
+    InputTextModule,
+    PasswordModule,
+    AutoCompleteModule,
+    DropdownModule
+    
  
   ],
   providers: [{
