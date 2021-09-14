@@ -194,7 +194,7 @@ export class PoaActividadController {
     poactividad.secuencial_estado = secuencial_estado;
     poactividad.secuencial_calendario = secuencial_calendario;
     poactividad.presupuesto = presupuesto;
-    poactividad.presupuesto_utilizado = presupuesto_utilizado;
+    poactividad.presupuesto_utilizado = 0.00;
 
     poactividad.secuencial_postergacion = secuencial_postergacion;
 
@@ -211,7 +211,7 @@ export class PoaActividadController {
     const secuencial_calendario_t = secuencial_postergacion;
 
     const sql = `UPDATE mando_integral_poa_actividad 
-        set secuencial_estado=$1, presupuesto_utilizado=0
+        set secuencial_estado=$1
         where secuencial_actividad = $2 and secuencial_calendario = $3`;
 
     try {
