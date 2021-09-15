@@ -5,12 +5,15 @@ import {
   checkMonth,
   getMonthsOfYear,
   checkMonthNext,
+  isPastPresentOrFutureMonth,
 } from '../../services/util/util.app';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observacion } from 'src/app/modelos/observacion.interface';
 import { ObservacionService } from 'src/app/services/proceso/observacion.service';
 import { PoaService } from '../../services/poa/poa.service';
+import { UploadService } from 'src/app/services/upload/upload.service';
+import { API } from 'src/app/services/APIS/api.global';
 
 @Component({
   selector: 'app-calendario',
@@ -19,6 +22,8 @@ import { PoaService } from '../../services/poa/poa.service';
 })
 export class CalendarioComponent implements OnInit {
   actividadCurrent: any;
+
+  URL_API = API.poa;
 
   public poaActividad: PoaActividad[] = [];
 
@@ -58,6 +63,10 @@ export class CalendarioComponent implements OnInit {
   postergar: number;
   secPoaAct: number;
 
+  pre: number;
+
+  fileToUpload: Array<File> = [];
+
   //Router Angular
   private activatedRoute: ActivatedRoute;
 
@@ -65,7 +74,8 @@ export class CalendarioComponent implements OnInit {
     private calService: CalendarioService,
     activatedRoute: ActivatedRoute,
     private obService: ObservacionService,
-    private poaService: PoaService
+    private poaService: PoaService,
+    private uploadService: UploadService
   ) {
     this.activatedRoute = activatedRoute;
   }
@@ -102,7 +112,6 @@ export class CalendarioComponent implements OnInit {
       .subscribe((actvsCal) => {
         //Actividades originales (solo las que estan en la base de datos)
         this.actvsCal = actvsCal;
-        console.log(this.actvsCal);
         //Todas las actividades durante el año
         this.actividades = this.getActividades();
       });
@@ -112,9 +121,29 @@ export class CalendarioComponent implements OnInit {
     const obs = form.elements.item(0)['value'].toString().trim();
     this.obService
       .createObservacion(obs, this.secPoaActividad)
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe((r) => {
+        console.log(r);
+
+        if (r && this.fileToUpload) {
+          const obsId = r.response['secuencial'].toString();
+          const actividadId =
+            r.response.secuencial_poa_actividad.secuencial.toString();
+          this.uploadService
+            .makeFileRequest(
+              `${API.poa}/observacion/upload/file/${obsId}/poaActividad/${actividadId}`,
+              this.fileToUpload,
+              'file'
+            )
+            .then((r) => {
+              console.log(r);
+            });
+        }
       });
+  }
+
+  fileChangeEvent(event: Event) {
+    const fileInput: HTMLInputElement = <HTMLInputElement>event.target;
+    this.fileToUpload = Array.from(fileInput.files);
   }
 
   checkActividad(month: string) {
@@ -158,6 +187,29 @@ export class CalendarioComponent implements OnInit {
   }
 
   onChangeActividad(actividad: any, estado: HTMLSelectElement) {
+    //actividad: contiene el origen (previous value) de la actividad
+    //estado: al estado que quiero moverle
+    const r = isPastPresentOrFutureMonth(
+      actividad.mes,
+      this.currentMonth.getMonth()
+    );
+
+    //Para meses anteriores
+    //Cuando el estado es incumplido
+    if (actividad.secEstado === 3 && r === 'PA' && estado.value !== '4') {
+      //actividad.secEstado = aux;
+      this.actividades = this.getActividades();
+      window.alert('No puedes realizar esa acción');
+      return;
+    }
+
+    //Cuando el estado pendiente
+    if (actividad.secEstado === 1 && r === 'PA' && estado.value === '2') {
+      this.actividades = this.getActividades();
+      window.alert('No puedes realizar esa acción');
+      return;
+    }
+
     if (estado.value === '4') {
       actividad.secEstado = 4;
       return;
@@ -194,7 +246,7 @@ export class CalendarioComponent implements OnInit {
         this.poaActividadSelected['secuencialCalendario']
       )
       .subscribe((pre) => {
-        console.log(pre);
+        this.pre = pre;
       });
     this.obService
       .getObservacionesByPOActividad(poaActividad.secPoaActividad)
@@ -266,7 +318,7 @@ export class CalendarioComponent implements OnInit {
 
   getValuePre() {
     if (this.obserCal.length > 0) return this.obserCal[0].presupuesto_utilizado;
-    return '0';
+    return this.pre;
   }
 
   checkMonths(month: string) {

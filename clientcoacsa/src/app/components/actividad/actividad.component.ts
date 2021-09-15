@@ -66,7 +66,7 @@ export class ActividadComponent implements OnInit {
     this.actividadService.getActividadesPoa(secuencial).subscribe((actvs) => {
       this.actividades = actvs;
       console.log(this.actividades);
-      
+
       this.secAnio = secuencial;
     });
     this.poaService.getPerspectivas(secuencial).subscribe((ps) => {
@@ -80,6 +80,7 @@ export class ActividadComponent implements OnInit {
   changePerspective(pSec: number) {
     if (pSec === -1) {
       this.getActividades(this.secAnio);
+      this.title = 'GENERALES';
     } else {
       this.actividadService
         .getActividadesByPerspectiva(this.secAnio, pSec)

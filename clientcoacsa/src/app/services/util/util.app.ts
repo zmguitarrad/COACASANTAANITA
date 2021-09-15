@@ -15,10 +15,7 @@ export function getMonthsOfYear() {
   ];
 }
 
-export function checkMonth(
-  month: string,
-  currentMonth: number
-) {
+export function checkMonth(month: string, currentMonth: number) {
   // if (option === '2') return true;
   const months = getMonthsOfYear();
   const q = months.find((m) => month.toLowerCase() === m.month.toLowerCase());
@@ -28,7 +25,34 @@ export function checkMonth(
 
 export function checkMonthNext(month: string, currentMonth: number) {
   const months = getMonthsOfYear();
+  //q: mes encontrado en el arreglo total
   const q = months.find((m) => month.toLowerCase() === m.month.toLowerCase());
-  if (q.id > currentMonth + 1) return true;
+  if (q.id <= currentMonth + 1) return true;
   return false;
+}
+/**
+ *
+ * @param month : value to check
+ * PA: Past
+ * PR: Present
+ * FU: Future
+ */
+
+export function isPastPresentOrFutureMonth(
+  month: string,
+  currentMonth: number
+) {
+  const allMonths = getMonthsOfYear();
+
+  const { id } = allMonths.find(
+    (element) => element.month.toLowerCase() === month.toLowerCase()
+  );
+
+  if (id === currentMonth + 1) {
+    return 'PR';
+  } else if (id > currentMonth + 1) {
+    return 'FU';
+  } else {
+    return 'PA';
+  }
 }

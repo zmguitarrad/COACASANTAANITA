@@ -68,7 +68,7 @@ export class ActividadController {
     }
   };
 
-  
+  //Trae todos los generales
   static getActividadPrincipal = async (req: Request, res: Response) => {
     try {
       const ActividadDB = getRepository(proceso_actividad);
@@ -176,7 +176,7 @@ export class ActividadController {
           total: preFound.total,
           global,
           pp,
-          prsGlobal
+          prsGlobal,
         };
         actvsFounds.push(actv_);
       });
@@ -237,12 +237,19 @@ export class ActividadController {
 
   static getActividadByPerspectiva = async (req: Request, res: Response) => {
     try {
-      const ActividadDB = getRepository(proceso_perspectiva);
+      const ActividadDB = getRepository(proceso_actividad);
+
+      const presupuestoDB = getRepository(
+        mando_integral_poa_actividad_presupuesto
+      );
+
       const { secuencial } = res.locals.jwtPayload;
       const poa = req.params.poa;
       const perspectiva = req.params.perspectiva;
+      //Arreglo de actividades
       const response = await ActividadDB.query(
-        `select
+        `
+        select
             actividades.secuencial as "secuencial_perspectiva",actividades.nombre_perspectiva,actividades.secuencial,actividades.nombre_actividad, actividades.nombre_objetivo_perspectiva, 
             actividades.nombre_rol, actividades.entregables,actividades.personal_apoyo, coalesce(avance.avance,0) avance
             from 
@@ -290,10 +297,59 @@ export class ActividadController {
             ) avance on avance.secuencial_poa_maestro=actividades.secuecialpoa and
             avance.secu_us=actividades.usuarios and  avance.actividad =actividades.actividad_sec
             
-            where actividades.usuarios=$1 AND actividades.secperspectiva=$2 and actividades.secuecialpoa=$3	`,
+            where actividades.usuarios=$1 AND actividades.secperspectiva=$2 and actividades.secuecialpoa=$3
+        `,
         [secuencial, perspectiva, poa]
       );
-      return res.json(response);
+
+      //la suma de presupuestos utilizados por cada actividad.
+      const presupuestos = await getPresupuestos();
+      const actvsFounds = []; //actividades con el porcentaje de presupuesto
+      // obtener los presupuestos global de actividad
+      const prsGlobal = await presupuestoDB.find({
+        loadRelationIds: true,
+      });
+
+      response.forEach((actv) => {
+        //Encontraar el presupuesto al que pertenece la actividad
+        const preFound = presupuestos.find(
+          (p) =>
+            p["secuencial_actividad"].toString() === actv.secuencial.toString()
+        );
+        //Encontrar el presupuesto global para esta actividad
+        const prsFound = prsGlobal.find((p) => {
+          //validar si ese presupuesto global le pertenece
+          //console.log(actividad.toString(), p["secuencial_actividad"].toString());
+
+          if (
+            actv.secuencial.toString() === p["secuencial_actividad"].toString()
+          ) {
+            return p;
+          }
+          return null;
+        });
+
+        let global = 0;
+        let pp = 0;
+        //validando si el presupuesto global existe para esa actividad
+        if (prsFound) {
+          global = prsFound.presupuesto;
+          //Porcentaje
+          pp = (preFound.total / Number(prsFound.presupuesto)) * 100;
+        }
+
+        //Modelado
+        const actv_ = {
+          ...actv,
+          total: preFound.total,
+          global,
+          pp,
+          prsGlobal,
+        };
+        actvsFounds.push(actv_);
+      });
+
+      return res.json(actvsFounds);
     } catch (error) {
       res.json({ error }).status(209);
     }
