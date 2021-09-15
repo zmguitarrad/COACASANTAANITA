@@ -4,11 +4,9 @@ import { mando_integral_poa_actividad } from "../mando_integral/PoaActividadMode
 
 
 @Entity()
-@Unique(['nombre_observacion'])
 export class proceso_observacion {
     @PrimaryGeneratedColumn()
     secuencial: number;
-
 
     @Column()
     @MinLength(4)
