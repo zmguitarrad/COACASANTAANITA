@@ -136,6 +136,7 @@ export class CalendarioComponent implements OnInit {
             )
             .then((r) => {
               console.log(r);
+              form.reset();
             });
         }
       });
