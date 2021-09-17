@@ -64,10 +64,13 @@ export class seguridades_usuario {
         const salt = genSaltSync(10);
         this.clave = hashSync(this.clave, salt);
     }
-
+    
+    //Encriptadas
     checkPassword(clave: string): boolean {
+        // if (this.clave.length === 10) {
+        //     return compareSync(clave, this.clave);
+        // }
+        // return this.clave.toString() === clave.toString();
         return compareSync(clave, this.clave);
     }
-    
-
 }

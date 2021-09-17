@@ -324,7 +324,8 @@ export class CalendarioComponent implements OnInit {
     this.poaService
       .updatePresupuesto(Number(newpre), this.secPoaActividad)
       .subscribe((r) => {
-        console.log(r);
+        this.getActividadesFromDB(this.secActividad);
+        this.activeField = !this.activeField;
       });
   }
 
