@@ -27,7 +27,7 @@ export function checkMonthNext(month: string, currentMonth: number) {
   const months = getMonthsOfYear();
   //q: mes encontrado en el arreglo total
   const q = months.find((m) => month.toLowerCase() === m.month.toLowerCase());
-  if (q.id <= currentMonth + 1) return true;
+  if (q.id === currentMonth + 1) return true;
   return false;
 }
 /**

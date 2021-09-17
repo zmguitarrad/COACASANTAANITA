@@ -113,7 +113,9 @@ export class CalendarioComponent implements OnInit {
         //Actividades originales (solo las que estan en la base de datos)
         this.actvsCal = actvsCal;
         //Todas las actividades durante el año
+        console.log(this.actvsCal);
         this.actividades = this.getActividades();
+        console.log(this.actividades);
       });
   }
 
@@ -187,7 +189,7 @@ export class CalendarioComponent implements OnInit {
     });
   }
 
-  onChangeActividad(actividad: any, estado: HTMLSelectElement) {
+  onChangeActividad(actividad: any, estado: HTMLSelectElement) { 
     //actividad: contiene el origen (previous value) de la actividad
     //estado: al estado que quiero moverle
     const r = isPastPresentOrFutureMonth(
@@ -205,11 +207,19 @@ export class CalendarioComponent implements OnInit {
     }
 
     //Cuando el estado pendiente
-    if (actividad.secEstado === 1 && r === 'PA' && estado.value === '2') {
+    if (actividad.secEstado === 1 && r === ('PA' || r === 'FU') && estado.value === '2') {
       this.actividades = this.getActividades();
       window.alert('No puedes realizar esa acción');
       return;
     }
+
+    if (r === 'FU' && estado.value === '2') {
+      this.actividades = this.getActividades();
+      window.alert('No puedes realizar esa acción');
+      return;
+    }
+
+   
 
     if (estado.value === '4') {
       actividad.secEstado = 4;
@@ -223,6 +233,7 @@ export class CalendarioComponent implements OnInit {
         actividad.secuencialCalendario
       )
       .subscribe((r) => {
+        console.log(r);
         console.log('Actualizado');
       });
   }

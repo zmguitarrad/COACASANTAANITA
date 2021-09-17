@@ -38,7 +38,7 @@
                   (change)="onChangeActividad(actividad, selectEstado)"
                 >
                   <option value="1">Pendiente</option>
-                  <option value="2" *ngIf="checkMonthsNext(actividad.mes)">
+                  <option value="2" >
                     Cumplido
                   </option>
                   <option value="3">Incumplido</option>
