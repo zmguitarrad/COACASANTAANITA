@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   planes: PlanI[] = [];
   maestros: MaestroI[] = [];
 
+  btnFlag = true;
+
   data = {
     idSecuencial: "",
     poaMaestro: ""
@@ -46,11 +48,13 @@ export class HomeComponent implements OnInit {
     this.poaService.getPoaMaestro(Number(plan.value)).subscribe(maestros=>{
       this.maestros = maestros;
       this.data.idSecuencial = plan.value;
+      this.checkButtonNext();
     })
   }
 
   changeMaestro(maestro: HTMLSelectElement){
     this.data.poaMaestro = maestro.value;
+    this.checkButtonNext();
   }
 
   goToGoActividad(){
@@ -58,8 +62,16 @@ export class HomeComponent implements OnInit {
     navigate(["/actividad"],{queryParams: {q: this.data.poaMaestro}});
   }
 
-  viewData(){
-    console.log(this.data)
+  checkButtonNext(){
+    if (this.data.poaMaestro === "" ||
+      this.data.poaMaestro ==="-1"  ||
+      this.data.idSecuencial === "" ||
+      this.data.idSecuencial === "-1"
+    ){
+      this.btnFlag = true;
+    }else{
+      this.btnFlag = false;
+    }
   }
 
 }

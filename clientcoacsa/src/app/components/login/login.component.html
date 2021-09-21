@@ -1,61 +1,79 @@
-     
 <div class="container">
-    <div class="row mt-4">
-        <div class="col-md-6 text-center company__info">
-            <img src="assets/mujer.jpg"  />
-        </div>
-        <div class="col-6 m-auto">
-           
-            <div class="card">
-                <div class="card-header text-center">
-                    <h4  style="color: white" > <strong>PLAN OPERATIVO ANUAL</strong> </h4>
-                
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-center">
-                        <img src="assets/descarga.jpg" id="icon" alt="User Icon" width="180px"  />
-                    </div>
-
-                    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                        <div class="form-group">
-                            <label style="color: black" for="">Usuario</label>
-
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="addon-wrapping"><i
-                                            class="fa fa-user bigicon"></i></span>
-                                </div>
-                                <input type="text" formControlName="secuencial" id="secuencial" class="form-control"
-                                    placeholder="Inserte su id Usuario" aria-label="Username"
-                                    aria-describedby="addon-wrapping" pInputText>
-                              
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  style="color: black"for="">Contraseña</label>
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="addon-wrapping"><i
-                                            class="fa fa-key bigicon"></i></span>
-                                </div>
-                                <input type="password" formControlName="clave" class="form-control"
-                                    placeholder="Inserte su contraseña" aria-label="Username"
-                                    aria-describedby="addon-wrapping" required minlength="4" pPassword>
-                            </div>
-                        </div>
-
-
-
-                        <button class="btn btn-primary btn-block"><i class="pi pi-user-plus" ></i>&nbsp;
-                            Acceder</button>
-                    </form>
-
-                </div>
-                <div class="card-footer ">
-                    <h6  style="color: white" > <strong> PLAN ESTRATÉGICO</strong> </h6>
-                  
-                </div>
-            </div>
-        </div>
+  <div class="row mt-4">
+    <div class="col-md-6 text-center company__info">
+      <img src="assets/mujer.jpg"/>
     </div>
+    <div class="col-6 m-auto">
+
+      <div class="card">
+        <div class="card-header text-center">
+          <h4 style="color: white"><strong>PLAN OPERATIVO ANUAL</strong></h4>
+
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <img src="assets/descarga.jpg" id="icon" alt="User Icon" width="180px"/>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="form-group">
+              <label style="color: black" for="">Usuario</label>
+
+              <div class="input-group flex-nowrap">
+                <div class="input-group is-invalid">
+                  <div class="input-group-prepend">
+                                    <span class="input-group-text" id="addon-wrapping1"><i
+                                      class="fa fa-user bigicon"></i></span>
+                  </div>
+                  <input type="text" formControlName="secuencial" id="secuencial"
+                         [ngClass]="{'form-control': true,
+                         'is-invalid': loginForm.controls['secuencial'].status === 'INVALID' &&
+                         loginForm.controls['secuencial'].touched}"
+                         placeholder="Inserte su id Usuario" aria-label="Username"
+                         aria-describedby="addon-wrapping1" required pInputText>
+                  <div class="invalid-feedback">
+                    El usuario es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label style="color: black" for="">Contraseña</label>
+              <div class="input-group flex-nowrap">
+                <div class="input-group is-invalid">
+                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="addon-wrapping2"><i
+                                      class="fa fa-key bigicon"></i></span>
+                </div>
+                <input type="password" formControlName="clave"  [ngClass]="{'form-control': true,
+                         'is-invalid': loginForm.controls['clave'].status === 'INVALID' &&
+                         loginForm.controls['clave'].touched}"
+                       placeholder="Inserte su contraseña" aria-label="Username"
+                       aria-describedby="addon-wrapping" required minlength="4" pPassword>
+                <div class="invalid-feedback">
+                  La contraseña es requerida
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="alertFlag" class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Error</strong> Las credenciales son incorrectas
+              <button type="button" (click)="resetAlertFlag()" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <button class="btn btn-primary btn-block"><i class="pi pi-user-plus"></i>&nbsp;
+              Acceder
+            </button>
+          </form>
+
+        </div>
+        <div class="card-footer ">
+          <h6 style="color: white"><strong> PLAN ESTRATÉGICO</strong></h6>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

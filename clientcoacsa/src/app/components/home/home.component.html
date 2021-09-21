@@ -1,42 +1,42 @@
 <app-header></app-header>
-    <div class="container mt-3">
-        <div class="raw">
+<div class="container mt-3">
+  <div class="raw">
 
-            <div class="col-7 m-auto">
-                <div class="card">
-                    <div class="card-header text-center" >
-                        <h4><strong>PLAN ESTRATÉGICO</strong></h4>
-                    </div>
-                    <div  class="card-body">
-                        <form >
-                                <label for="inputState"><strong>NOMBRE PLAN ESTRATÉGICO: </strong></label>
-                            <div  class="card-body text-center">
-                                <select  class="form-control col-md-10" #plan (change)="changePlan(plan)" required>
-                                 <option value="-1" selected>Escoger...</option>
-                                  <option *ngFor="let p of planes" [value]="p.secuencial" >{{p.nombre_plan_estrategico}}</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="inputState"><strong>PLAN OPERATIVO ANUAL: </strong></label>
-                                <div  class="card-body text-center">
-                                <select class="form-control col-md-10" #maestro (change)="changeMaestro(maestro)" required>
-                                    <option selected>Escoger...</option>
-                                  <option *ngFor="let m of maestros" [value]="m.secuencial" >{{m.nombre_poa_maestro}}</option>
-                                </select>
-                            </div>
-                            </div>
-
-                            <div class="form-group d-flex justify-content-center">
-                                <a  (click)="goToGoActividad()" class="btn btn-success px-5"><i class="fas fa-book"></i> Ingresar</a>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-
-            </div>
+    <div class="col-7 m-auto">
+      <div class="card">
+        <div class="card-header text-center">
+          <h4><strong>PLAN ESTRATÉGICO</strong></h4>
         </div>
+        <div class="card-body">
+          <form>
+            <label for="inputState"><strong>NOMBRE PLAN ESTRATÉGICO: </strong></label>
+            <div class="card-body text-center">
+              <select class="form-control col-md-10" #plan (change)="changePlan(plan)" required>
+                <option value="-1" selected>Escoger...</option>
+                <option *ngFor="let p of planes" [value]="p.secuencial">{{p.nombre_plan_estrategico}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputState"><strong>PLAN OPERATIVO ANUAL: </strong></label>
+              <div class="card-body text-center">
+                <select class="form-control col-md-10" #maestro (change)="changeMaestro(maestro)" required>
+                  <option value="-1" selected>Escoger...</option>
+                  <option *ngFor="let m of maestros" [value]="m.secuencial">{{m.nombre_poa_maestro}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group d-flex justify-content-center">
+              <button [disabled]="btnFlag" (click)="goToGoActividad()" class="btn btn-success px-5"><i class="fas fa-book"></i> Ingresar</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
     </div>
+  </div>
+</div>
 
 

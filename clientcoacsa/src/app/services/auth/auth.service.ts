@@ -41,8 +41,7 @@ export class AuthService {
         this.loggedIn.next(true);
         this.userToken.next(user.token);
         return user;
-      }),
-        catchError((err) => this.handlerError(err)));
+      }));
   }
 
   logout(): void {
