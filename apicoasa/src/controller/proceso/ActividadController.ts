@@ -167,7 +167,7 @@ export class ActividadController {
         if (prsFound) {
           global = prsFound.presupuesto;
           //Porcentaje
-          pp = ((preFound.total / Number(prsFound.presupuesto)) * 100).toFixed(2);
+          pp = Number(((preFound.total / Number(prsFound.presupuesto)) * 100).toFixed(2));
         }
 
         //Modelado

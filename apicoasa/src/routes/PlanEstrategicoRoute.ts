@@ -10,9 +10,6 @@ router.get('/', PlanEstrategicoController.getAllPlanEstrategico);
 router.get('/:secuencial', PlanEstrategicoController.getPlanEstrategicoBySecuencial);
 router.get('/plan/usuario', [checkJwt], PlanEstrategicoController.getPlanEstrategicoysecuencialUsuario);
 router.get('/poa/:secuencial', PlanEstrategicoController.getPlanEstrategicoPOAMaestro)
-router.post('/',PlanEstrategicoController.createPlanEstrategico);
-router.put('/:secuencial',  PlanEstrategicoController.updatePlanEstrategicoBySecuencial)
-router.delete('/:secuencial', PlanEstrategicoController.removePlanEstrategicoBySecuenccial)
 
 
 export default router;

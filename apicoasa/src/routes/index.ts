@@ -6,7 +6,6 @@ import usuarioplanestrategico from "./UsuarioEstrategicoRoute";
 import planestrategico from "./PlanEstrategicoRoute";
 import actividad from "./ActividadRoute";
 import observacion from "./ObservacionRoute";
-import bitacora from "./BitacoraRoute";
 import poactividad from "./PoaActividadRoute";
 import perspectiva from "./PerspectivaRoute"
 
@@ -25,7 +24,6 @@ routes.use('/actividad', actividad);
 routes.use('/perspectiva', perspectiva);
 routes.use('/observacion', observacion);
 routes.use('/poactividad', poactividad);
-routes.use('/bitacora', bitacora);
 
 
 
