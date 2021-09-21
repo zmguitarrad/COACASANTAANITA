@@ -81,7 +81,6 @@ export class UserController {
         }
         let response: any;
         try {
-            user.hashPassword();
             response = await userBD.save(user);
         } catch (error) {
             return res.status(409).json({

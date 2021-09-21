@@ -25,11 +25,7 @@ export class AuthController {
             )
         }
 
-        if (!user.checkPassword(clave)) {
-            return res.status(400).json(
-                { message: 'Username & Password are incorrect!' }
-            );
-        }
+      
 
         //Generate token this user
         const token = jwt.sign(
@@ -69,9 +65,7 @@ export class AuthController {
             });
         }
 
-        if (!user.checkPassword(oldPassword)) {
-            return res.status(401).json({ message: 'Check your password' })
-        }
+        
 
         user.clave = newPassword;
 
