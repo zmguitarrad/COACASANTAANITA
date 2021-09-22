@@ -53,7 +53,6 @@ export class AuthService {
 
   private checkToken(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-
     if (user) {
       const isExpired = helper.isTokenExpired(user.token);
       if (isExpired) {

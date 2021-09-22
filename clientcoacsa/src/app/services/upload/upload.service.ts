@@ -12,8 +12,8 @@ export class UploadService {
     name: string
   ) {
     return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      const xhr = new XMLHttpRequest();
+      const formData = new FormData(); //Tipo de dato
+      const xhr = new XMLHttpRequest(); //Instancia para peticiones http
       for (const file of files) {
         formData.append(name, file, file.name);
       }
@@ -27,8 +27,9 @@ export class UploadService {
           }
         }
       };
-
+    //Ejecutabdo primero:: alistando
       xhr.open('POST', url, true);
+      //Enviando petición
       xhr.send(formData);
     });
   }

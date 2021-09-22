@@ -9,6 +9,10 @@ import { proceso_perspectiva } from "../../entity/proceso/PerspectivaModel";
 import { mando_integral_poa_actividad } from "../../entity/mando_integral/PoaActividadModel";
 import { mando_integral_poa_actividad_presupuesto } from "../../entity/mando_integral/PoaActPresupuestoModel";
 
+/**
+ * 
+ * @returns Obtener los presepuestos
+ */
 async function getPresupuestos() {
   const PoaActividadDB = getRepository(mando_integral_poa_actividad);
   const ProcesoActividadDB = getRepository(proceso_actividad);
@@ -40,6 +44,8 @@ async function getPresupuestos() {
     });
   }
 
+
+  //Lista de poa actividades con la suma  {secuencia_actividad: 1, total: 32}
   return auxArray;
 }
 
@@ -143,6 +149,7 @@ export class ActividadController {
       });
 
       response.forEach((actv) => {
+
         //Encontraar el presupuesto al que pertenece la actividad
         const preFound = presupuestos.find(
           (p) =>
@@ -369,6 +376,7 @@ export class ActividadController {
     const poaMaestroBD = getRepository(mando_integral_poa_maestro);
     const roleBD = getRepository(seguridades_role);
 
+    //Filtros de validaciones
     let indicadorFound: indicadores_indicador;
     try {
       indicadorFound = await indicadorBD.findOneOrFail(secuencial_indicador);

@@ -113,9 +113,7 @@ export class CalendarioComponent implements OnInit {
         //Actividades originales (solo las que estan en la base de datos)
         this.actvsCal = actvsCal;
         //Todas las actividades durante el año
-        console.log(this.actvsCal);
         this.actividades = this.getActividades();
-        console.log(this.actividades);
       });
   }
 
@@ -124,8 +122,6 @@ export class CalendarioComponent implements OnInit {
     this.obService
       .createObservacion(obs, this.secPoaActividad)
       .subscribe((r) => {
-        console.log(r);
-
         if (r && this.fileToUpload) {
           const obsId = r.response['secuencial'].toString();
           const actividadId =
@@ -135,9 +131,7 @@ export class CalendarioComponent implements OnInit {
               `${API.poa}/observacion/upload/file/${obsId}/poaActividad/${actividadId}`,
               this.fileToUpload,
               'file'
-            )
-            .then((r) => {
-              console.log(r);
+            ).then((r) => {
               form.reset();
             });
         }
@@ -158,8 +152,8 @@ export class CalendarioComponent implements OnInit {
     return poaFoundL;
   }
 
+  //Obtener actividades validadadas por los estados
   getActividades() {
-    //const months = getMonthsOfYear();
     return this.months.map((month) => {
       //Obtengo mi actividad si existe, si no existe undefined
       const response = this.checkActividad(month.mes);
@@ -192,11 +186,14 @@ export class CalendarioComponent implements OnInit {
   onChangeActividad(actividad: any, estado: HTMLSelectElement) { 
     //actividad: contiene el origen (previous value) de la actividad
     //estado: al estado que quiero moverle
+    
+    //Revisa rel mes: PASADO, PRESENTE O FUTURO
     const r = isPastPresentOrFutureMonth(
       actividad.mes,
       this.currentMonth.getMonth()
     );
 
+    //Validaciones
     //Para meses anteriores
     //Cuando el estado es incumplido
     if (actividad.secEstado === 3 && r === 'PA' && estado.value !== '4') {
@@ -212,14 +209,13 @@ export class CalendarioComponent implements OnInit {
       window.alert('No puedes realizar esa acción');
       return;
     }
-
+    //Meses en el futuro
     if (r === 'FU' && estado.value === '2') {
       this.actividades = this.getActividades();
       window.alert('No puedes realizar esa acción');
       return;
     }
 
-   
 
     if (estado.value === '4') {
       actividad.secEstado = 4;
@@ -233,8 +229,6 @@ export class CalendarioComponent implements OnInit {
         actividad.secuencialCalendario
       )
       .subscribe((r) => {
-        console.log(r);
-        console.log('Actualizado');
       });
   }
 
@@ -244,7 +238,6 @@ export class CalendarioComponent implements OnInit {
   ) {
     // this.obserCal = [];
     this.poaActividadSelected = poaActividad;
-
     this.secPoaActividad = poaActividad.secPoaActividad;
     if (postergar) {
       this.setData(postergar, poaActividad);
@@ -302,6 +295,7 @@ export class CalendarioComponent implements OnInit {
     return this.months.find((m) => m.mes.toUpperCase() === month.toUpperCase());
   }
 
+  //Validar meses para postergar una actividad de un determinado mes
   getMonths(month: string) {
     const { id } = this.monthsAux.find(
       (m: any) => m.month.toUpperCase() === month.toUpperCase()
@@ -334,11 +328,4 @@ export class CalendarioComponent implements OnInit {
     return this.pre;
   }
 
-  checkMonths(month: string) {
-    return checkMonth(month, this.currentMonth.getMonth());
-  }
-
-  checkMonthsNext(month: string) {
-    return checkMonthNext(month, this.currentMonth.getMonth());
-  }
 }

@@ -4,17 +4,17 @@ import { ActividadService } from 'src/app/services/proceso/actividad.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { CalendarioService } from '../../services/calendario/calendario.service';
-import { getMonthsOfYear } from '../../services/util/util.app';
 import { Router } from '@angular/router';
 import { PoaService } from 'src/app/services/poa/poa.service';
-import { query } from '@angular/animations';
+
 
 @Component({
   selector: 'app-actividad',
   templateUrl: './actividad.component.html',
-  styleUrls: ['./actividad.component.css'],
+  styleUrls: ['./actividad.component.css']
 })
 export class ActividadComponent implements OnInit {
+  
   public actividades: Actividad[] = [];
   actvsCal: PoaActividad[] = [];
   secAnio: number = -1;
@@ -46,17 +46,22 @@ export class ActividadComponent implements OnInit {
     presupuesto_utilizado: 0,
   };
 
+  private router: Router;
+
   constructor(
     private actividadService: ActividadService,
     private activatedRouter: ActivatedRoute,
     private calService: CalendarioService,
     private poaService: PoaService,
-    private router: Router
-  ) {}
+    router: Router
+  ) {
+    this.router = router;
+  }
 
+  //Lo primero que se ejecuta una vez renderizado el componente
   ngOnInit(): void {
     this.activatedRouter.queryParams
-      .pipe(map((query) => Number(query['q'])))
+      .pipe<number>(map<any, number>((query) => Number(query['q'])))
       .subscribe((secuencial) => {
         this.getActividades(secuencial);
       });
@@ -65,15 +70,10 @@ export class ActividadComponent implements OnInit {
   getActividades(secuencial: number) {
     this.actividadService.getActividadesPoa(secuencial).subscribe((actvs) => {
       this.actividades = actvs;
-      console.log(this.actividades);
-
       this.secAnio = secuencial;
     });
     this.poaService.getPerspectivas(secuencial).subscribe((ps) => {
       this.perspectivas = ps;
-    });
-    this.actividadService.getPresupuestos().subscribe((r) => {
-      console.log(r);
     });
   }
 
@@ -93,16 +93,6 @@ export class ActividadComponent implements OnInit {
     }
   }
 
-  viewCalendario(actividad: Actividad) {
-    this.actvsCal = [];
-    this.actividadSelected = actividad;
-    this.secActividad = actividad.secuencial;
-    this.calService
-      .getCalendarioActividades(this.secAnio, this.secActividad)
-      .subscribe((actvsCal) => {
-        this.actvsCal = actvsCal;
-      });
-  }
 
   goToCalendar(actividad: Actividad) {
     this.secActividad = actividad.secuencial;
@@ -112,20 +102,6 @@ export class ActividadComponent implements OnInit {
         qActividad: this.secActividad,
       },
     });
-  }
-
-  checkActividad(month: string) {
-    const monthUpperCase = month.toUpperCase();
-    const poaFoundL = this.actvsCal.find(
-      (poa) => poa.mes.toUpperCase() === monthUpperCase
-    );
-    // @ts-ignore
-    this.poaFound = poaFoundL;
-    return poaFoundL;
-  }
-
-  getMonths() {
-    return getMonthsOfYear();
   }
 
   goToGoCalender() {
