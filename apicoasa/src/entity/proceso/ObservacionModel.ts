@@ -20,6 +20,10 @@ export class proceso_observacion {
     @Column({nullable:true})
     @MaxLength(500)
     entregables: string;
+
+    @Column()
+    @MaxLength(500)
+    codigo_usuario: string;
     
     @ManyToOne(() => mando_integral_poa_actividad, poaactividad=> poaactividad.observacionpoa)
     @JoinColumn([{ name: "secuencial_poa_actividad", referencedColumnName: "secuencial" }])
