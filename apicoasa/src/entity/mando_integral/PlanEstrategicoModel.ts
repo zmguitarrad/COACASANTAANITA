@@ -7,7 +7,6 @@ import { mando_integral_usuario_plan_estrategico } from "./EstrategicoUsuarioMod
 
 
 @Entity()
-@Unique(['nombre_plan_estrategico'])
 export class mando_integral_plan_estrategico {
     @PrimaryGeneratedColumn()
     secuencial: number;

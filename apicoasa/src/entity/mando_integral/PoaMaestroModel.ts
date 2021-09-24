@@ -10,7 +10,6 @@ import { mando_integral_poa_actividad_presupuesto } from "./PoaActPresupuestoMod
 
 
 @Entity()
-@Unique(['nombre_poa_maestro'])
 export class mando_integral_poa_maestro {
     @PrimaryGeneratedColumn()
     secuencial: number;

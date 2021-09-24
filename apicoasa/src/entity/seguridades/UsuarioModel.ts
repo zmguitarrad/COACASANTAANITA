@@ -1,20 +1,5 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  ManyToOne,
-  Unique,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  Generated,
-} from "typeorm";
-import {
-  IsNotEmpty,
-  MinLength,
-  MaxLength,
-  IsNotEmptyObject,
-  IsEmail,
-} from "class-validator";
+import {Entity,PrimaryColumn,Column,Unique,OneToMany,Generated,} from "typeorm";
+import {IsNotEmpty,MinLength,MaxLength,IsEmail,} from "class-validator";
 import { genSaltSync, hashSync, compareSync } from "bcryptjs";
 import { seguridades_usuario_role } from "./UsuarioRoleModel";
 import { mando_integral_usuario_plan_estrategico } from "../mando_integral/EstrategicoUsuarioModel";
@@ -29,9 +14,6 @@ export class seguridades_usuario {
   @MaxLength(50)
   secuencial: string;
 
-  // @ManyToOne(() => Role, role => role.users)
-  // @IsNotEmptyObject()
-  //secuencial_rol: Role;
 
   @Column()
   @MaxLength(10)

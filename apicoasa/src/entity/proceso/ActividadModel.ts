@@ -1,10 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column, Unique, ManyToOne, JoinColumn} from "typeorm";
 
 import { IsNotEmpty, MinLength, MaxLength, IsNotEmptyObject } from "class-validator";
-import { proceso_perspectiva } from "./PerspectivaModel";
-import { proceso_objetivo_perspectiva } from "./ObjetivoPerspectivaModel";
 import { indicadores_indicador } from "../indicadores/IndicadorModel";
-import { proceso_observacion } from "./ObservacionModel";
 import { seguridades_role } from "../seguridades/RoleModel";
 import { mando_integral_poa_actividad } from "../mando_integral/PoaActividadModel";
 import { mando_integral_poa_maestro } from "../mando_integral/PoaMaestroModel";
@@ -12,7 +9,6 @@ import { mando_integral_poa_actividad_presupuesto } from "../mando_integral/PoaA
 
 
 @Entity()
-@Unique(['nombre_actividad'])
 export class proceso_actividad {
     @PrimaryGeneratedColumn()
     secuencial: number;

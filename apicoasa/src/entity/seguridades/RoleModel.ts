@@ -6,7 +6,6 @@ import { seguridades_usuario_role } from "./UsuarioRoleModel";
 import { proceso_actividad } from "../proceso/ActividadModel";
 
 @Entity()
-@Unique(['nombre_rol'])
 export class seguridades_role {
     @PrimaryGeneratedColumn()
     secuencial: number;

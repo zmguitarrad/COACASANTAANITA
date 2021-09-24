@@ -6,7 +6,6 @@ import { indicadores_indicador } from "../indicadores/IndicadorModel";
 
 
 @Entity()
-@Unique(['nombre_objetivo_perspectiva'])
 export class proceso_objetivo_perspectiva {
     @PrimaryGeneratedColumn()
     secuencial: number;

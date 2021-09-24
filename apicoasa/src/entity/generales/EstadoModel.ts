@@ -6,7 +6,6 @@ import { mando_integral_poa_actividad } from "../mando_integral/PoaActividadMode
 
 
 @Entity()
-@Unique(['nombre_estado'])
 export class generales_estado {
     @PrimaryGeneratedColumn()
     secuencial: number;

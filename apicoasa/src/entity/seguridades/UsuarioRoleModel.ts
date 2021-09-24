@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column, Unique, ManyToOne,JoinColumn} from "typeorm";
 
-import { IsNotEmpty, MinLength, MaxLength, IsNotEmptyObject } from "class-validator";
+import { IsNotEmpty, IsNotEmptyObject } from "class-validator";
 
 import { seguridades_usuario } from "./UsuarioModel";
 import { seguridades_role } from "./RoleModel";

@@ -6,7 +6,6 @@ import { proceso_actividad } from "../proceso/ActividadModel";
 
 
 @Entity()
-@Unique(['nombre_indicador'])
 export class indicadores_indicador {
     @PrimaryGeneratedColumn()
     secuencial: number;
