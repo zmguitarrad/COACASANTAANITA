@@ -38,9 +38,7 @@
                   (change)="onChangeActividad(actividad, selectEstado)"
                 >
                   <option value="1">Pendiente</option>
-                  <option value="2" >
-                    Cumplido
-                  </option>
+                  <option value="2">Cumplido</option>
                   <option value="3">Incumplido</option>
                   <option value="4">Postergado</option>
                 </select>
@@ -220,7 +218,9 @@
                   <td class="text-center">{{ p.fecha }}</td>
                   <td>
                     <a
-                      [href]="URL_API + '/observacion/get/file/' + p.entregables"
+                      [href]="
+                        URL_API + '/observacion/get/file/' + p.entregables
+                      "
                       target="_blank"
                       >Ver</a
                     >

@@ -99,7 +99,7 @@ export class UserController {
     static updateUserById = async (req: Request, res: Response) => {
         const { secuencial } = req.params;
         const { cedula, apellidos, nombres, correo, clave, activo } = req.body;
-        console.log(req.body);
+        
         
         const userBD = getRepository(seguridades_usuario);
      

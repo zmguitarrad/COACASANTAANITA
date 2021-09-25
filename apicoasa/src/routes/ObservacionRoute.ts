@@ -23,7 +23,7 @@ const router = Router();
 
 router.get("/", ObservacionController.getAllObservacion);
 router.get("/:secuencial", ObservacionController.getObservacionByPoaActividad);
-router.post("/", ObservacionController.createObservacion);
+router.post("/", checkJwt, ObservacionController.createObservacion);
 router.put("/:secuencial", ObservacionController.updateObservacionBySecuencial);
 router.delete(
   "/:secuencial",

@@ -57,6 +57,8 @@ export class ObservacionController {
     const poactividadBD = getRepository(mando_integral_poa_actividad);
     const observacionBD = getRepository(proceso_observacion);
 
+    const { secuencial } = res.locals.jwtPayload;
+
     let poactividadFound: mando_integral_poa_actividad;
     try {
       poactividadFound = await poactividadBD.findOneOrFail(
@@ -75,6 +77,7 @@ export class ObservacionController {
     observacion.fecha = date;
     observacion.entregables = entregables || "";
     observacion.secuencial_poa_actividad = secuencial_poa_actividad;
+    observacion.codigo_usuario = secuencial;
 
     const validationOpt = { validationError: { target: false, value: false } };
     const errors = await validate(observacion, validationOpt);

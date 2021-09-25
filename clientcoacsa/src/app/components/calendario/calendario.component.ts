@@ -131,7 +131,8 @@ export class CalendarioComponent implements OnInit {
               `${API.poa}/observacion/upload/file/${obsId}/poaActividad/${actividadId}`,
               this.fileToUpload,
               'file'
-            ).then((r) => {
+            )
+            .then((r) => {
               form.reset();
             });
         }
@@ -183,10 +184,11 @@ export class CalendarioComponent implements OnInit {
     });
   }
 
-  onChangeActividad(actividad: any, estado: HTMLSelectElement) { 
+  onChangeActividad(actividad: any, estado: HTMLSelectElement) {
+    console.log(actividad.secEstado, estado.value);
     //actividad: contiene el origen (previous value) de la actividad
     //estado: al estado que quiero moverle
-    
+
     //Revisa rel mes: PASADO, PRESENTE O FUTURO
     const r = isPastPresentOrFutureMonth(
       actividad.mes,
@@ -196,7 +198,11 @@ export class CalendarioComponent implements OnInit {
     //Validaciones
     //Para meses anteriores
     //Cuando el estado es incumplido
-    if (actividad.secEstado === 3 && r === 'PA' && estado.value !== '4') {
+    if (
+      (actividad.secEstado === 3 || actividad.secEstado === 4) &&
+      r === 'PA' &&
+      estado.value !== '4'
+    ) {
       //actividad.secEstado = aux;
       this.actividades = this.getActividades();
       window.alert('No puedes realizar esa acción');
@@ -204,7 +210,11 @@ export class CalendarioComponent implements OnInit {
     }
 
     //Cuando el estado pendiente
-    if (actividad.secEstado === 1 && r === ('PA' || r === 'FU') && estado.value === '2') {
+    if (
+      actividad.secEstado === 1 &&
+      r === ('PA' || r === 'FU') &&
+      estado.value === '2'
+    ) {
       this.actividades = this.getActividades();
       window.alert('No puedes realizar esa acción');
       return;
@@ -216,11 +226,12 @@ export class CalendarioComponent implements OnInit {
       return;
     }
 
-
     if (estado.value === '4') {
       actividad.secEstado = 4;
       return;
     }
+
+    actividad.secEstado = estado.value;
 
     this.calService
       .updateEstado(
@@ -228,8 +239,7 @@ export class CalendarioComponent implements OnInit {
         this.secActividad,
         actividad.secuencialCalendario
       )
-      .subscribe((r) => {
-      });
+      .subscribe((r) => {});
   }
 
   viewObservacion(
@@ -327,5 +337,4 @@ export class CalendarioComponent implements OnInit {
     if (this.obserCal.length > 0) return this.obserCal[0].presupuesto_utilizado;
     return this.pre;
   }
-
 }
