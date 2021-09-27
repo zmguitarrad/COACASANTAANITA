@@ -8,11 +8,15 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class PoaService {
+
+  
+
   constructor(private _http: HttpClient) {}
 
   getPlanEstrategico() {
     return this._http.get<PlanI[]>(API.poa + '/planestrategico/plan/usuario');
   }
+
 
   getPoaMaestro(secuencial: number) {
     return this._http.get<MaestroI[]>(

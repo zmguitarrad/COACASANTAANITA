@@ -75,7 +75,7 @@ export class ObservacionController {
     const observacion = new proceso_observacion();
     observacion.nombre_observacion = nombre_observacion;
     observacion.fecha = date;
-    observacion.entregables = entregables || "no hay";
+    observacion.entregables = entregables || "";
     observacion.secuencial_poa_actividad = secuencial_poa_actividad;
     observacion.codigo_usuario = secuencial;
 

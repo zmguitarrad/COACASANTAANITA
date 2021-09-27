@@ -25,7 +25,7 @@ export class ObservacionService {
     const newObs = {
       "nombre_observacion": obs,
       "fecha": "CURRENT_TIME",
-      "entregables": "http://www.africau.edu/images/default/sample.pdf",
+      "entregables": "",
       "secuencial_poa_actividad": {
         "secuencial": secPoaAct
       }

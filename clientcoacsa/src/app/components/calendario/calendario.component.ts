@@ -115,6 +115,8 @@ export class CalendarioComponent implements OnInit {
       .subscribe((actvsCal) => {
         //Actividades originales (solo las que estan en la base de datos)
         this.actvsCal = actvsCal;
+        console.log(this.actvsCal);
+        
         //Todas las actividades durante el año
         this.actividades = this.getActividades();
       });
@@ -339,5 +341,9 @@ export class CalendarioComponent implements OnInit {
   getValuePre() {
     if (this.obserCal.length > 0) return this.obserCal[0].presupuesto_utilizado;
     return this.pre;
+  }
+
+  getActividadName(){
+    return localStorage.getItem("namecoac").toString();
   }
 }

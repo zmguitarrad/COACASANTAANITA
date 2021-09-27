@@ -51,7 +51,6 @@ export class ActividadComponent implements OnInit {
   constructor(
     private actividadService: ActividadService,
     private activatedRouter: ActivatedRoute,
-    private calService: CalendarioService,
     private poaService: PoaService,
     router: Router
   ) {
@@ -96,6 +95,7 @@ export class ActividadComponent implements OnInit {
 
   goToCalendar(actividad: Actividad) {
     this.secActividad = actividad.secuencial;
+    localStorage.setItem("namecoac", actividad.nombre_actividad);
     this.router.navigate(['/calendario'], {
       queryParams: {
         qAnio: this.secAnio,
