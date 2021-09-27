@@ -205,7 +205,7 @@
             <table class="table table-bordered">
               <thead class="thead">
                 <tr>
-                  <th scope="col">Nro</th>
+                  <th scope="col">Usuario</th>
                   <th scope="col">Observación</th>
                   <th scope="col">Fecha</th>
                   <th scope="col">Entregables</th>
@@ -213,7 +213,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let p of obserCal">
-                  <th scope="row">{{ p.secuencial }}</th>
+                  <th scope="row">{{ p.codigo_usuario }}</th>
                   <td class="text-center">{{ p.nombre_observacion }}</td>
                   <td class="text-center">{{ p.fecha }}</td>
                   <td>
@@ -222,7 +222,7 @@
                         URL_API + '/observacion/get/file/' + p.entregables
                       "
                       target="_blank"
-                      >Ver</a
+                      >Descargar</a
                     >
                   </td>
                 </tr>

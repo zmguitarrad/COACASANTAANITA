@@ -32,7 +32,7 @@ export class ObservacionController {
       const ObservacionDB = getRepository(proceso_observacion);
       const secuencial = req.params.secuencial;
       const response = await ObservacionDB.query(
-        `select ob.secuencial, ob.nombre_observacion,
+        `select ob.secuencial, ob.nombre_observacion,ob.codigo_usuario,
             pac.secuencial as "secuencial_poa_actividad",ac.nombre_actividad, 
             ca.secuencial as "secuencial_calendario", ca.mes, ob.fecha, ob.entregables,
             pac.presupuesto_utilizado
@@ -75,7 +75,7 @@ export class ObservacionController {
     const observacion = new proceso_observacion();
     observacion.nombre_observacion = nombre_observacion;
     observacion.fecha = date;
-    observacion.entregables = entregables || "";
+    observacion.entregables = entregables || "no hay";
     observacion.secuencial_poa_actividad = secuencial_poa_actividad;
     observacion.codigo_usuario = secuencial;
 

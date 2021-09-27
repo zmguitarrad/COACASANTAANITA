@@ -33,6 +33,7 @@ export class CalendarioComponent implements OnInit {
   currentMonth = new Date();
 
   secPoaActividad: number = -1;
+
   poaActividadSelected: PoaActividad = {
     mes: '',
     nombre_actividad: '',
@@ -92,6 +93,7 @@ export class CalendarioComponent implements OnInit {
           };
         })
       )
+      
       .subscribe((query) => {
         this.calService.getMonths(query.secAnio).subscribe((months) => {
           this.months = months;
@@ -102,6 +104,7 @@ export class CalendarioComponent implements OnInit {
       });
 
     this.monthsAux = getMonthsOfYear();
+  
   }
 
   getActividadesFromDB(secActividad: number) {
