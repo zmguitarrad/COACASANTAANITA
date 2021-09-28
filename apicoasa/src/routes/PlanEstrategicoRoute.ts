@@ -6,10 +6,10 @@ import { PlanEstrategicoController } from '../controller/mando_integral/PlanEstr
 
 const router = Router();
 
-router.get('/', [checkJwt],PlanEstrategicoController.getAllPlanEstrategico);
-router.get('/:secuencial', [checkJwt],PlanEstrategicoController.getPlanEstrategicoBySecuencial);
+router.get('/',PlanEstrategicoController.getAllPlanEstrategico);
+router.get('/:secuencial',PlanEstrategicoController.getPlanEstrategicoBySecuencial);
 router.get('/plan/usuario', [checkJwt], PlanEstrategicoController.getPlanEstrategicoysecuencialUsuario);
-router.get('/poa/:secuencial', [checkJwt],PlanEstrategicoController.getPlanEstrategicoPOAMaestro)
+router.get('/poa/:secuencial',PlanEstrategicoController.getPlanEstrategicoPOAMaestro)
 
 
 export default router;

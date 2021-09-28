@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/',[checkJwt], UserRoleController.getAllUsersRole);
 router.get('/:secuencial',[checkJwt], UserRoleController.getUserRoleById);
-router.post('/',[checkJwt],UserRoleController.createUserRole);
+router.post('/',UserRoleController.createUserRole);
 router.put('/:secuencial',[checkJwt],  UserRoleController.updateUserRoleById);
 
 

@@ -6,12 +6,12 @@ import { PoaActividadController } from '../controller/mando_integral/PoaActivida
 
 const router = Router();
 
-router.get('/', [checkJwt],ActividadController.getAllActividad);
+router.get('/',ActividadController.getAllActividad);
 router.get('/usuario/poa/:poa',[checkJwt], ActividadController.getActividadPrincipal);
 router.get('/usuario/poa/:poa/perspectiva/:perspectiva',[checkJwt], ActividadController.getActividadByPerspectiva);
-router.post('/',[checkJwt],ActividadController.createActividad);
-router.put('/:secuencial',[checkJwt], ActividadController.updateActividadBySecuencial);
-router.get('/presupuestos/all',[checkJwt], PoaActividadController.getPresupuestosUtilizados);
+router.post('/',ActividadController.createActividad);
+router.put('/:secuencial', ActividadController.updateActividadBySecuencial);
+router.get('/presupuestos/all', PoaActividadController.getPresupuestosUtilizados);
 
 
 
