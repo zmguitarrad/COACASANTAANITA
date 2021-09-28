@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthLoginGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthLoginGuard] },
-  { path: 'actividad', component: ActividadComponent },
-  { path: 'calendario', component: CalendarioComponent },
+  { path: 'actividad', component: ActividadComponent,  canActivate: [AuthLoginGuard]},
+  { path: 'calendario', component: CalendarioComponent,  canActivate: [AuthLoginGuard]},
 
 
 

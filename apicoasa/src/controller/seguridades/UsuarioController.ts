@@ -140,22 +140,5 @@ export class UserController {
 
     }
 
-    static removeUserById = async (req: Request, res: Response) => {
-        const { secuencial } = req.params;
-        const userBD = getRepository(seguridades_usuario);
-        try {
-            await userBD.findOneOrFail(secuencial);
-        } catch (error) {
-            return res.status(404).json(
-                { message: 'Usuario no encontrado!' }
-            );
-        }
-
-        const response = await userBD.delete(secuencial);
-        res.status(201).json(
-            { message: 'Usuario borrado', response }
-        );
-    }
-
   
 }

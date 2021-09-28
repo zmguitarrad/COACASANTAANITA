@@ -8,8 +8,7 @@ const router = Router();
 router.get('/' ,[checkJwt],UserController.getAllUsers);
 router.get('/:secuencial',[checkJwt], UserController.getUserBySecuencial);
 router.get('/byid/:id',[checkJwt], UserController.getUserById);
-router.post('/',UserController.createUser);
-router.put('/:secuencial',[checkJwt],  UserController.updateUserById)
-router.delete('/:secuencial',[checkJwt], UserController.removeUserById)
+router.post('/',[checkJwt],UserController.createUser);
+router.put('/:secuencial',[checkJwt],  UserController.updateUserById);
 
 export default router;

@@ -9,6 +9,9 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {DropdownModule} from 'primeng/dropdown';
+import {ButtonModule} from 'primeng/button';
+import {PaginatorModule} from 'primeng/paginator';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 
 
 import { LoginComponent } from './components/login/login.component';
@@ -43,7 +46,11 @@ import { CalendarioComponent } from './components/calendario/calendario.componen
     InputTextModule,
     PasswordModule,
     AutoCompleteModule,
-    DropdownModule
+    DropdownModule,
+    ButtonModule,
+    PaginatorModule,
+    NgxPaginationModule
+    
     
  
   ],

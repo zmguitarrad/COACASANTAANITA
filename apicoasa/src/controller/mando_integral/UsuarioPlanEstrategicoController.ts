@@ -164,22 +164,5 @@ export class UsuarioPlanEstrategicoController {
 
     }
 
-    static removeUsuarioPlanEstrateicoBySecuencial = async (req: Request, res: Response) => {
-        const { secuencial } = req.params;
-        const usuarioplanBD = getRepository(mando_integral_usuario_plan_estrategico);
-        try {
-            await usuarioplanBD.findOneOrFail(secuencial);
-        } catch (error) {
-            return res.status(404).json(
-                { message: 'Usuario y plan estratégico no encontrado!' }
-            );
-        }
-
-        const response = await usuarioplanBD.delete(secuencial);
-        res.status(201).json(
-            { message: 'Usuario y Plan estratégico eliminado', response }
-        );
-    }
-
   
 }

@@ -16,6 +16,7 @@ import { PoaService } from 'src/app/services/poa/poa.service';
 export class ActividadComponent implements OnInit {
   
   public actividades: Actividad[] = [];
+  public page: number;
   actvsCal: PoaActividad[] = [];
   secAnio: number = -1;
   secActividad: number = -1;

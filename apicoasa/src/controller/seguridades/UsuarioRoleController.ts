@@ -167,22 +167,5 @@ export class UserRoleController {
 
     }
 
-    static removeUseRoleById = async (req: Request, res: Response) => {
-        const { secuencial } = req.params;
-        const useroleBD = getRepository(seguridades_usuario_role);
-        try {
-            await useroleBD.findOneOrFail(secuencial);
-        } catch (error) {
-            return res.status(404).json(
-                { message: 'Usuario rol no encontrado!' }
-            );
-        }
-
-        const response = await useroleBD.delete(secuencial);
-        res.status(201).json(
-            { message: 'Usuario y rol eliminado', response }
-        );
-    }
-
   
 }

@@ -105,7 +105,7 @@ export class ObservacionController {
   ) => {
     const { secuencial } = req.params;
     const { nombre_observacion } = req.body;
-    console.log(req.body);
+    
 
     const observacionBD = getRepository(proceso_observacion);
 
@@ -134,21 +134,6 @@ export class ObservacionController {
     res.status(201).json({ message: "Observacion actualizada", response });
   };
 
-  static removeObservacionBySecuencial = async (
-    req: Request,
-    res: Response
-  ) => {
-    const { secuencial } = req.params;
-    const observacionBD = getRepository(proceso_observacion);
-    try {
-      await observacionBD.findOneOrFail(secuencial);
-    } catch (error) {
-      return res.status(404).json({ message: "Observacion no encontrado!" });
-    }
-
-    const response = await observacionBD.delete(secuencial);
-    res.status(201).json({ message: "Observacion borrado", response });
-  };
 
   static uploadFile = async (req: Request, res: Response) => {
     const secObs = req.params["secObs"];

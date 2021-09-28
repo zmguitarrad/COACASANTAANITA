@@ -194,53 +194,7 @@ export class ActividadController {
     }
   };
 
-  static getActividadAllPrincipal = async (req: Request, res: Response) => {
-    try {
-      const ActividadDB = getRepository(proceso_perspectiva);
-      const { secuencial } = res.locals.jwtPayload;
-      const poa = req.params.poa;
-      const actividad = req.params.actividad;
-      const response = await ActividadDB.query(
-        `select per.secuencial as "secuencial_perspectiva",per.nombre_perspectiva, obj.nombre_objetivo_perspectiva,
-            pac.nombre_actividad, pma.nombre_poa_maestro,pac.personal_apoyo,pac.secuencial as "secuencial_actividad",pac.entregables, 
-            ro.nombre_rol, us.secuencial as "secuencial_usuario", us.nombres, avance.avance
-            from proceso_perspectiva per
-            inner join proceso_objetivo_perspectiva obj on per.secuencial = obj.secuencial_perspectiva
-            inner join indicadores_indicador ind on obj.secuencial = ind.secuencial_objetivo_perspectiva
-            inner join proceso_actividad pac on pac.secuencial_indicador=ind.secuencial
-            inner join mando_integral_poa_maestro pma on pma.secuencial=pac.secuencial_poa_maestro
-            inner join seguridades_role ro on ro.secuencial= pac.secuencial_role
-            inner join seguridades_usuario_role usr on usr.secuencial_role=ro.secuencial
-            inner join seguridades_usuario us on us.secuencial=usr.secuencial_usuario
-            left join(
-            select poac.secuencial_poa_maestro,ac.secuencial, 
-            ROUND ((cast (coalesce(max(num.num),0) as numeric(6,2))/cast (count(*) as numeric(6,2)))*100,2) avance
-            from public.mando_integral_poa_actividad poac
-            inner join proceso_actividad ac on ac.secuencial = poac.secuencial_actividad
-            inner join seguridades_role ro on ro.secuencial = ac.secuencial_role
-            inner join seguridades_usuario_role usr on usr.secuencial_role=ro.secuencial
-            inner join seguridades_usuario us on us.secuencial=usr.secuencial_usuario
-            
-            left join(
-            select poac.secuencial_poa_maestro secpm,ac.secuencial secac, count(*) num  from public.mando_integral_poa_actividad poac
-            inner join proceso_actividad ac on ac.secuencial = poac.secuencial_actividad
-            inner join seguridades_role ro on ro.secuencial = ac.secuencial_role
-            inner join seguridades_usuario_role usr on usr.secuencial_role=ro.secuencial
-            inner join seguridades_usuario us on us.secuencial=usr.secuencial_usuario
-            WHERE US.SECUENCIAL=$1 AND ac.secuencial=$2 AND poac.secuencial_poa_maestro =$3 AND poac.secuencial_estado=2
-            group by poac.secuencial_poa_maestro,ac.secuencial
-            ) num on num.secpm= poac.secuencial and num.secac = ac.secuencial
-            WHERE US.SECUENCIAL=$1 AND ac.secuencial=$2 AND poac.secuencial_poa_maestro =$3
-            group by poac.secuencial_poa_maestro,ac.secuencial
-            ) avance on avance.secuencial_poa_maestro = pma.secuencial and avance.secuencial = pac.secuencial
-            WHERE US.SECUENCIAL=$1 AND PMA.SECUENCIAL=$3 `,
-        [secuencial, actividad, poa]
-      );
-      return res.json(response);
-    } catch (error) {
-      res.json({ error }).status(209);
-    }
-  };
+  
 
   static getActividadByPerspectiva = async (req: Request, res: Response) => {
     try {
@@ -516,18 +470,5 @@ export class ActividadController {
       });
     }
     res.status(201).json({ message: "Actividad actualizado", response });
-  };
-
-  static removeActividadBySecuencial = async (req: Request, res: Response) => {
-    const { secuencial } = req.params;
-    const actividadBD = getRepository(proceso_actividad);
-    try {
-      await actividadBD.findOneOrFail(secuencial);
-    } catch (error) {
-      return res.status(404).json({ message: "Actividad no encontrado!" });
-    }
-
-    const response = await actividadBD.delete(secuencial);
-    res.status(201).json({ message: "Actividad borrado", response });
   };
 }

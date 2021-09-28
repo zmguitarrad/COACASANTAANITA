@@ -6,11 +6,10 @@ import { UsuarioPlanEstrategicoController } from '../controller/mando_integral/U
 
 const router = Router();
 
-router.get('/', UsuarioPlanEstrategicoController.getAllUsuarioPlanEstrategico);
-router.get('/:secuencial', UsuarioPlanEstrategicoController.getUsuarioPlanEstrategicoBySecuecial);
-router.post('/',UsuarioPlanEstrategicoController.createUsuarioPlanEstrategico);
-router.put('/:secuencial', UsuarioPlanEstrategicoController.updateUsuarioPlanEstrategicoBySecuencial)
-router.delete('/:secuencial', UsuarioPlanEstrategicoController.removeUsuarioPlanEstrateicoBySecuencial)
+router.get('/', [checkJwt],UsuarioPlanEstrategicoController.getAllUsuarioPlanEstrategico);
+router.get('/:secuencial', [checkJwt],UsuarioPlanEstrategicoController.getUsuarioPlanEstrategicoBySecuecial);
+router.post('/',[checkJwt],UsuarioPlanEstrategicoController.createUsuarioPlanEstrategico);
+router.put('/:secuencial', [checkJwt],UsuarioPlanEstrategicoController.updateUsuarioPlanEstrategicoBySecuencial);
 
 
 export default router;

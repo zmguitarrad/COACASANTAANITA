@@ -26,7 +26,7 @@ export class CalendarioComponent implements OnInit {
   URL_API = API.poa;
 
   public poaActividad: PoaActividad[] = [];
-
+  public page: number;
   public obserCal: Observacion[] = [];
   public activeField = false;
 

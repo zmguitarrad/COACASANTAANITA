@@ -118,21 +118,5 @@ export class RoleController {
         }
         res.status(201).json({ message: 'Rol actualizado', response });
     }
-    static removeRoleById = async (req: Request, res: Response) => {
-        const { secuencial } = req.params;
-        const roleBD = getRepository(seguridades_role);
-        try {
-            await roleBD.findOneOrFail(secuencial);
-        } catch (error) {
-            return res.status(404).json(
-                { message: 'Role not found!' }
-            );
-        }
-
-        const response = await roleBD.delete(secuencial);
-        res.status(201).json(
-            { message: 'Role eliminado', response }
-        );
-    }
 
 }

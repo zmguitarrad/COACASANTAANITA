@@ -7,8 +7,7 @@ const router = Router();
 router.get('/',[checkJwt], RoleController.getAllRoles);
 router.get('/:secuencial',[checkJwt], RoleController.getRoleById);
 router.get('/byname/:nombre_rol',[checkJwt], RoleController.getRoleByName);
-router.post('/', RoleController.createRole);
-router.put('/:secuencial', [checkJwt], RoleController.updateRoleById)
-router.delete('/:secuencial',[checkJwt], RoleController.removeRoleById)
+router.post('/',[checkJwt],RoleController.createRole);
+router.put('/:secuencial', [checkJwt], RoleController.updateRoleById);
 
 export default router;
