@@ -10,7 +10,7 @@ export class proceso_observacion {
 
     @Column()
     @MinLength(4)
-    @MaxLength(200)
+    @MaxLength(1000)
     @IsNotEmpty()
     nombre_observacion: string;
     
