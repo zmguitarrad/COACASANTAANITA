@@ -21,10 +21,10 @@ const upload = multer({ storage });
 
 const router = Router();
 
-router.get("/", [checkJwt],ObservacionController.getAllObservacion);
-router.get("/:secuencial", [checkJwt],ObservacionController.getObservacionByPoaActividad);
+router.get("/",ObservacionController.getAllObservacion);
+router.get("/:secuencial",ObservacionController.getObservacionByPoaActividad);
 router.post("/", checkJwt, ObservacionController.createObservacion);
-router.put("/:secuencial", [checkJwt],ObservacionController.updateObservacionBySecuencial);
+router.put("/:secuencial", ObservacionController.updateObservacionBySecuencial);
 //For files upload
 router.post(
   "/upload/file/:secObs/poaActividad/:poa",
